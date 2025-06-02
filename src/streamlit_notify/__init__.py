@@ -1,5 +1,11 @@
-import streamlit as st
+"""
+Initialization module for the st_notify package.
+"""
+
 from typing import Any, Optional
+
+import streamlit as st
+
 from .status_elements import RerunnableStatusElement
 from .queue import NotificationQueue
 from .dclass import StatusElementNotification

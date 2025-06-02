@@ -8,6 +8,7 @@ from typing import Any, Callable
 from .queue import NotificationQueue
 from .dclass import StatusElementNotification
 
+
 class RerunnableStatusElement(NotificationQueue):
     """A wrapper class that adds notification queueing to Streamlit widgets.
 

@@ -1,12 +1,19 @@
-from dataclasses import dataclass
-import streamlit as st
+"""
+Module for queue management of Streamlit notifications.
+"""
+
 from typing import Optional
 import threading
+
+import streamlit as st
 
 from .dclass import StatusElementNotification
 
 
 class StreamlitNotificationQueue:
+    """
+    A thread-safe queue for Streamlit notifications stored in session state.
+    """
 
     def __init__(self, queue_name: str) -> None:
         self.queue_name = queue_name
@@ -65,6 +72,9 @@ class StreamlitNotificationQueue:
 
 
 class NotificationQueue:
+    """
+    A notification queue for Streamlit Status Elements.
+    """
 
     def __init__(self, queue_name: str) -> None:
         self.queue_name = queue_name
