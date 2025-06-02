@@ -1,4 +1,4 @@
-# StreamlitRerunNotifications
+# Streamlit-Notify
 
 A Streamlit component that provides status elements that persist across reruns.
 
