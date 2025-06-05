@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "streamlit-notify"
-version = "0.1.0"
 description = "A Streamlit component that provides toast notifications that persist across reruns"
 readme = "README.md"
 authors = [
     {name = "Patrick Garrett", email = "pgarrett@scripps.edu"},
 ]
+dynamic = ["version"]
 license = {text = "MIT"}
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -26,3 +26,6 @@ requires-python = ">=3.7"
 [tool.setuptools]
 package-dir = {"" = "src"}
 packages = ["streamlit_notify"]
+
+[tool.setuptools.dynamic]
+version = {attr = "streamlit_notify.__version__"}
