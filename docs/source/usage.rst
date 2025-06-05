@@ -1,11 +1,11 @@
 Usage
 =====
 
-Rather than show notification immediatly, you can queue them up and display them at the beginning of your app. 
+Rather than show notifications immediately, you can queue them up and display them at the beginning of your app. 
 This is useful if you want to rerun your app and notify users of a change after the rerun.
 
 Supported Status Elements
------------
+------------------------
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ Basic Usage
 -----------
 
 By default,
-displaying a notification will also clear it from it's asscoiated the queue, but you can change this behavior by 
+displaying a notification will also clear it from its associated queue, but you can change this behavior by 
 specifying `remove=False` to any notify function.
 
 .. code-block:: python
@@ -105,7 +105,7 @@ Otherwise, notifications are displayed in the order they were added:
     stn.info("Low priority message", priority=-5)
 
 Adding Custom Data to Notifications
-------------------------------
+----------------------------------
 
 You can attach custom data to notifications:
 
@@ -178,7 +178,7 @@ For more advanced control, you can:
 
 
 Super Advanced Usage
---------------
+--------------------
 
 .. code-block:: python
 
@@ -210,7 +210,7 @@ Super Advanced Usage
 Where are Status Elements Stored?
 -----------
 
-The status elements are stored in a session state queue, under the key: `ST_NOTIFY_{WIDGETNAME}_QUEUE.`
+The status elements are stored in a session state queue, under the key: `ST_NOTIFY_{WIDGETNAME}_QUEUE`.
 
 For example, stn.success would be stored by the key: `ST_NOTIFY_SUCCESS_QUEUE`
 
@@ -222,7 +222,7 @@ Status elements are special notifications that are displayed in the Streamlit ap
 balloons, and success messages. They can be used to provide feedback to users about the status of their 
 actions or the state of the application.
 
-They are stored a dataclass `StatusElementNotification`, please refer to the :doc:`dclass documentation <api/dclass>` 
+They are stored as a dataclass `StatusElementNotification`, please refer to the :doc:`dclass documentation <api/dclass>` 
 for more details.
 
 For more examples, please refer to the :doc:`API documentation <api/index>`.

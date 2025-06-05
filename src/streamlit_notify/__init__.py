@@ -85,17 +85,17 @@ def get_all_notifications() -> dict[str, list[Any]]:
 def __getattr__(name: str) -> Any:
     """
     Delegate attribute access to streamlit if not found in this module.
-    
+
     Parameters
     ----------
     name : str
         Name of the attribute to get
-        
+
     Returns
     -------
     Any
         The requested attribute from streamlit
-        
+
     Raises
     ------
     AttributeError

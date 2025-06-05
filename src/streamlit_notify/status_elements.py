@@ -20,7 +20,7 @@ class RerunnableStatusElement(NotificationQueue):
     ----------
     base_widget : Callable
         The original Streamlit widget function to wrap
-        
+
     Attributes
     ----------
     base_widget : Callable
@@ -30,7 +30,7 @@ class RerunnableStatusElement(NotificationQueue):
     def __init__(self, base_widget: Callable) -> None:
         """
         Initialize a new RerunnableStatusElement.
-        
+
         Parameters
         ----------
         base_widget : Callable
@@ -42,7 +42,7 @@ class RerunnableStatusElement(NotificationQueue):
     def __call__(self, *args: Any, **kwargs: Any) -> None:
         """
         Create and add a notification to the queue.
-        
+
         Parameters
         ----------
         *args : Any
@@ -58,14 +58,14 @@ class RerunnableStatusElement(NotificationQueue):
     ) -> StatusElementNotification:
         """
         Create a notification without adding it to the queue.
-        
+
         Parameters
         ----------
         *args : Any
             Positional arguments to pass to the base widget
         **kwargs : Any
             Keyword arguments to pass to the base widget
-            
+
         Returns
         -------
         StatusElementNotification

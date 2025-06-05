@@ -13,12 +13,12 @@ from .dclass import StatusElementNotification
 class StreamlitNotificationQueue:
     """
     A thread-safe queue for Streamlit notifications stored in session state.
-    
+
     Parameters
     ----------
     queue_name : str
         The name of the queue in the session state.
-    
+
     Attributes
     ----------
     queue_name : str
@@ -30,7 +30,7 @@ class StreamlitNotificationQueue:
     def __init__(self, queue_name: str) -> None:
         """
         Initialize a new StreamlitNotificationQueue.
-        
+
         Parameters
         ----------
         queue_name : str
@@ -43,7 +43,7 @@ class StreamlitNotificationQueue:
     def _ensure_queue(self) -> None:
         """
         Ensure the queue exists in session state.
-        
+
         Creates an empty list in session state if the queue doesn't exist.
         """
         if self.queue_name not in st.session_state:
@@ -52,9 +52,9 @@ class StreamlitNotificationQueue:
     def add(self, item: StatusElementNotification) -> None:
         """
         Add an item to the queue in session state.
-        
+
         Items are sorted by priority (highest first) after addition.
-        
+
         Parameters
         ----------
         item : StatusElementNotification
@@ -69,7 +69,7 @@ class StreamlitNotificationQueue:
     def get_all(self) -> list[StatusElementNotification]:
         """
         Get the current queue from session state.
-        
+
         Returns
         -------
         list[StatusElementNotification]
@@ -90,7 +90,7 @@ class StreamlitNotificationQueue:
     def pop(self) -> Optional[StatusElementNotification]:
         """
         Pop an item from the queue in session state.
-        
+
         Returns
         -------
         Optional[StatusElementNotification]
@@ -105,7 +105,7 @@ class StreamlitNotificationQueue:
     def get(self) -> Optional[StatusElementNotification]:
         """
         Get the first notification in the queue without removing it.
-        
+
         Returns
         -------
         Optional[StatusElementNotification]
@@ -120,7 +120,7 @@ class StreamlitNotificationQueue:
     def __len__(self) -> int:
         """
         Get the size of the queue.
-        
+
         Returns
         -------
         int
@@ -134,12 +134,12 @@ class StreamlitNotificationQueue:
 class NotificationQueue:
     """
     A notification queue for Streamlit Status Elements.
-    
+
     Parameters
     ----------
     queue_name : str
         The name of the queue in session state.
-        
+
     Attributes
     ----------
     queue_name : str
@@ -151,7 +151,7 @@ class NotificationQueue:
     def __init__(self, queue_name: str) -> None:
         """
         Initialize a new NotificationQueue.
-        
+
         Parameters
         ----------
         queue_name : str
@@ -163,7 +163,7 @@ class NotificationQueue:
     def notify(self, remove: bool = True) -> None:
         """
         Display all queued notifications for the widget.
-        
+
         Parameters
         ----------
         remove : bool, optional
@@ -180,7 +180,7 @@ class NotificationQueue:
     def has_notifications(self) -> bool:
         """
         Check if there are any notifications in the queue.
-        
+
         Returns
         -------
         bool
@@ -197,7 +197,7 @@ class NotificationQueue:
     def pop_notification(self) -> StatusElementNotification:
         """
         Pop a notification from the queue.
-        
+
         Returns
         -------
         StatusElementNotification
@@ -208,7 +208,7 @@ class NotificationQueue:
     def add_notification(self, notification: StatusElementNotification) -> None:
         """
         Add a notification to the queue.
-        
+
         Parameters
         ----------
         notification : StatusElementNotification
@@ -219,7 +219,7 @@ class NotificationQueue:
     def get_notifications(self) -> list[StatusElementNotification]:
         """
         Get all notifications in the queue.
-        
+
         Returns
         -------
         list[StatusElementNotification]
