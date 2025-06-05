@@ -8,6 +8,20 @@ A Streamlit component that provides status elements that persist across reruns.
 pip install streamlit-notify
 ```
 
+## Documentation
+
+Full documentation is available at [Read the Docs](https://streamlit-notify.readthedocs.io/).
+
+To build the documentation locally:
+
+```bash
+cd docs
+pip install -r requirements.txt
+make html
+```
+
+Then open `docs/build/html/index.html` in your browser.
+
 ## Supported Status Elements
 
 - `stn.toast`: Toast notifications
