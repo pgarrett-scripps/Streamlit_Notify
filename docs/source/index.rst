@@ -3,13 +3,15 @@ Streamlit-Notify Documentation
 
 A Streamlit component that provides status elements that persist across reruns.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+`Demo App (Click Me!)<https://st-notify.streamlit.app/>`_
 
-   installation
-   usage
-   api/index
+.. toctree::
+    :maxdepth: 2
+    :caption: Contents:
+
+    installation
+    usage
+    api/index
 
 Indices and tables
 ==================
