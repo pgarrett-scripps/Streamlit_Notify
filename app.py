@@ -1,111 +1,72 @@
-from typing import Dict
 import streamlit as st
 import streamlit_notify as stn
 
+st.set_page_config(
+    page_title="Streamlit-Notify Demo",
+    page_icon="🔔",
+    layout="centered"
+)
 
-# Create a custom notification queue
-custom_queue = stn.NotificationQueue(queue_name='my_notification_queue')
+with st.container(border=True):
+    st.caption("Notifications will be shown here")
+    # Display all queued notifications at the beginning
+    stn.notify_all(True)
 
-# Display all notifications in the custom queue
-custom_queue.notify()
+# Application title and description
+st.title("🔔 Streamlit-Notify Demo")
+st.markdown("""
+This demo showcases the capabilities of the `streamlit-notify` package, 
+which provides status elements that persist across reruns.
+""")
 
-if st.button("Add Custom Notification"):
-    # Create a notification using StatusElementNotification
-    success_notification = stn.StatusElementNotification(
-        base_widget=st.success,
-        args={'body': 'My Message', 'icon': None},
-        priority=1,
-        data=None,
-    )
-    custom_queue.add_notification(success_notification)
+
+st.header("Basic Notification Types")
+st.markdown("Click any button to trigger a notification and rerun the app. ")
+
+# Create a nice layout with columns
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.subheader("Standard Elements")
+    if st.button("Show Success", key="success_btn"):
+        stn.success("Operation completed successfully!")
+        st.rerun()
     
-    # You can add multiple notifications to the same queue
-    error_notification = stn.StatusElementNotification(
-        base_widget=st.error,
-        args={'body': 'Error Message', 'icon': None},
-        priority=2,
-        data=None,
-    )
-    custom_queue.add_notification(error_notification)
-    st.rerun()
-
-
-# returns a dict mapping notification types to list of notifications
-notifications = stn.get_all_notifications()
-error_notifications = notifications['error']
-toast_notifications = notifications['toast']
-
-# or you can get the notifications directly from the stn widget
-error_notifications = stn.error.get_notifications()
-
-for error_notification in error_notifications:
-
-    priority = error_notification.priority
-    data = error_notification.data
-
-    if data == True:
-        error_notification.notify()
-
-
-if st.button("Show Error Message1"):
-    stn.error("Operation Error1!", data=True)
-    st.rerun()
-
-if st.button("Show Error Message2"):
-    stn.error("Operation Error2!", data=False)
-    st.rerun()
-
-stn.notify_all(True)
-
-print(stn.toast.create_notification("This is a custom toast message", icon="ℹ️"))
-
-if st.button("Add st toast"):
-    st.toast("Info", icon="ℹ️")
-
-if st.button("Add Success Toast"):
-    stn.toast("Success2", icon="✅", priority=2)
-    stn.toast("Success3", icon="✅", priority=3)
-    stn.toast("Success1", icon="✅", priority=1)
-    st.rerun()
+    if st.button("Show Info", key="info_btn"):
+        stn.info("Here's some useful information.")
+        st.rerun()
     
-if st.button("Add Error Toast"):
-    stn.toast("Error", icon="✅")
-    st.rerun()
+    if st.button("Show Warning", key="warning_btn"):
+        stn.warning("This action might cause issues.")
+        st.rerun()
+
+with col2:
+    st.subheader("Error & Exception")
+    if st.button("Show Error", key="error_btn"):
+        stn.error("An error occurred during the operation.")
+        st.rerun()
     
-if st.button("Add Material Icon Toast"):
-    stn.toast("Material", icon="✅")
-    st.rerun()
+    if st.button("Show Exception", key="exception_btn"):
+        stn.exception("ValueError: This is a simulated exception")
+        st.rerun()
 
-if st.button("Rerun"):
-    st.rerun()
+with col3:
+    st.subheader("Special Effects")
+    if st.button("Show Toast", key="toast_btn"):
+        stn.toast("This is a toast notification", icon="✅")
+        st.rerun()
+    
+    if st.button("Show Balloons", key="balloons_btn"):
+        stn.balloons()
+        st.rerun()
+    
+    if st.button("Show Snow", key="snow_btn"):
+        stn.snow()
+        st.rerun()
 
-if st.button("Balloons"):
-    stn.balloons()
-    st.rerun()
+st.markdown("---")
+st.markdown("""
+### Learn More
+Check out the [documentation](https://streamlit-notify.readthedocs.io/) for more examples and API details.
+""")
 
-if st.button("Snow"):
-    stn.snow()
-    st.rerun()
-
-if st.button("Success"):
-    stn.success("Success")
-    st.rerun()
-
-if st.button("Info"):
-    stn.info("Info")
-    st.rerun()
-
-if st.button("Error"):
-    stn.error("Error1", priority=1)
-    stn.error("Error3", priority=1)
-    stn.error("Error2", priority=1)
-
-    st.rerun()
-
-if st.button("Warning"):
-    stn.warning("Warning")
-    st.rerun()
-
-if st.button("Exception"):
-    stn.exception("Exception")
-    st.rerun()

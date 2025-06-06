@@ -2,6 +2,8 @@
 Initialization module for the st_notify package.
 """
 
+__version__ = "0.1.1"
+
 from typing import Any, Optional
 
 import streamlit as st
@@ -64,7 +66,7 @@ def clear_all_notifications() -> None:
     Clear all notification queues.
     """
     for widget in status_elements.values():
-        widget.clear()
+        widget.clear_notifications()
 
 
 def get_all_notifications() -> dict[str, list[Any]]:
