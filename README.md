@@ -4,6 +4,9 @@ A Streamlit component that provides status elements that persist across reruns.
 
 Demo App: https://st-notify.streamlit.app/
 
+![Demo](gif/demo.gif)
+
+
 ## Installation
 
 ```bash
