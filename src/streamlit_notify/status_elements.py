@@ -85,3 +85,79 @@ class RerunnableStatusElement(NotificationQueue):
             priority=priority,
             data=data,
         )
+    
+    def __name__(self) -> str:
+        """
+        Get the name of the wrapped widget function.
+
+        Returns
+        -------
+        str
+            The name of the base widget function
+        """
+        return self.base_widget.__name__
+    
+    def __repr__(self) -> str:
+        """
+        Get a string representation of the RerunnableStatusElement.
+
+        Returns
+        -------
+        str
+            A string representation of the RerunnableStatusElement
+        """
+        return f"RerunnableStatusElement({self.base_widget.__name__})"
+    
+    def __str__(self) -> str:
+        """
+        Get a string representation of the RerunnableStatusElement.
+
+        Returns
+        -------
+        str
+            A string representation of the RerunnableStatusElement
+        """
+        return f"RerunnableStatusElement({self.base_widget.__name__})"
+    
+    def __eq__(self, other: Any) -> bool:
+        """
+        Check if this RerunnableStatusElement is equal to another object.
+
+        Parameters
+        ----------
+        other : Any
+            The object to compare against
+
+        Returns
+        -------
+        bool
+            True if the other object is a RerunnableStatusElement with the same base widget, False otherwise
+        """
+        if not isinstance(other, RerunnableStatusElement):
+            return False
+        return self.base_widget == other.base_widget
+    
+    def __hash__(self) -> int:
+        """
+        Get the hash of the RerunnableStatusElement.
+
+        Returns
+        -------
+        int
+            The hash of the base widget function
+        """
+        return hash(self.base_widget)
+    
+
+    def __len__(self) -> int:
+        """
+        Get the number of notifications in the queue.
+
+        Returns
+        -------
+        int
+            The number of notifications in the queue
+        """
+        return len(self.queue)
+    
+    

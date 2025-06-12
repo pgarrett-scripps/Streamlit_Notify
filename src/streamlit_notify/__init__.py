@@ -4,7 +4,7 @@ Initialization module for the st_notify package.
 
 __version__ = "0.1.1"
 
-from typing import Any, Optional
+from typing import Any
 
 import streamlit as st
 
@@ -22,7 +22,8 @@ error = RerunnableStatusElement(st.error)
 warning = RerunnableStatusElement(st.warning)
 exception = RerunnableStatusElement(st.exception)
 
-status_elements = {
+
+STATUS_ELEMENTS = {
     "toast": toast,
     "balloons": balloons,
     "snow": snow,
@@ -45,7 +46,7 @@ def notify_all(remove: bool = True) -> None:
         Defaults to True. If False, notifications will remain in the queue
         for the next rerun cycle.
     """
-    for widget in status_elements.values():
+    for widget in STATUS_ELEMENTS.values():
         widget.notify(remove=remove)
 
 
@@ -58,14 +59,14 @@ def has_any_notifications() -> bool:
     bool
         True if any widget has notifications queued.
     """
-    return any(widget.has_notifications() for widget in status_elements.values())
+    return any(widget.has_notifications() for widget in STATUS_ELEMENTS.values())
 
 
 def clear_all_notifications() -> None:
     """
     Clear all notification queues.
     """
-    for widget in status_elements.values():
+    for widget in STATUS_ELEMENTS.values():
         widget.clear_notifications()
 
 
@@ -80,7 +81,7 @@ def get_all_notifications() -> dict[str, list[Any]]:
     """
     return {
         name: list(widget.get_notifications())
-        for name, widget in status_elements.items()
+        for name, widget in STATUS_ELEMENTS.items()
     }
 
 

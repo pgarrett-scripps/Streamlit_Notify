@@ -72,3 +72,14 @@ class StatusElementNotification:
             f"WidgetNotification(base_widget={self.base_widget.__name__}, args={self.args}, "
             f"priority={self.priority}, data={self.data})"
         )
+    
+    def __name__(self) -> str:
+        """
+        Get the name of the notification.
+
+        Returns
+        -------
+        str
+            The name of the notification.
+        """
+        return self.name
