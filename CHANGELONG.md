@@ -1,3 +1,7 @@
+### 0.2.1
+- added create notification fucntion to extras
+- element -> notification_type
+
 ### v0.2.0
 - extras.py - for compatibility with streamlit extras
 - basic tests

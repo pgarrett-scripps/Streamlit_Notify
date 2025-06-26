@@ -50,7 +50,7 @@ def exception_stn(*args: Any, **kwargs: Any) -> None:
 
 def notify(
     remove: bool = True,
-    element: Optional[
+    notification_type: Optional[
         Literal[
             "toast",
             "balloons",
@@ -66,19 +66,43 @@ def notify(
     """
     Display queued notifications.
     """
-    if element is None:
+    if notification_type is None:
         for widget in STATUS_ELEMENTS.values():
             widget.notify(remove=remove)
-    elif element in STATUS_ELEMENTS:
-        STATUS_ELEMENTS[element].notify(remove=remove)
+    elif notification_type in STATUS_ELEMENTS:
+        STATUS_ELEMENTS[notification_type].notify(remove=remove)
     else:
         raise ValueError(
-            f"Invalid filter: {element}. Must be one of {list(STATUS_ELEMENTS.keys())}."
+            f"Invalid filter: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
         )
 
 
+def create_notification(
+    notification_type: Literal[
+        "toast",
+        "balloons",
+        "snow",
+        "success",
+        "info",
+        "error",
+        "warning",
+        "exception",
+    ],
+    *args: Any,
+    **kwargs: Any,
+) -> Any:
+    """
+    Create a notification without adding it to the queue.
+    """
+    if notification_type in STATUS_ELEMENTS:
+        return STATUS_ELEMENTS[notification_type].create_notification(*args, **kwargs)
+    else:
+        raise ValueError(
+            f"Invalid element: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
+        )
+
 def get_notifications(
-    element: Literal[
+    notification_type: Literal[
         "toast",
         "balloons",
         "snow",
@@ -92,4 +116,4 @@ def get_notifications(
     """
     Retrieve notifications for a specific type.
     """
-    return STATUS_ELEMENTS[element].notifications
+    return STATUS_ELEMENTS[notification_type].notifications
