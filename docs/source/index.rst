@@ -1,9 +1,9 @@
 Streamlit-Notify Documentation
-=============================
+==============================
 
 A Streamlit component that provides status elements that persist across reruns.
 
-`Demo App (Click Me!)<https://st-notify.streamlit.app/>`_
+`Demo App (Click Me!)<https://st-notify.streamlit.app/>`
 
 .. toctree::
     :maxdepth: 2

@@ -1,5 +1,5 @@
 """
-Objects for Streamlit notifications.
+Streamlit notification objects.
 """
 
 from collections import OrderedDict
@@ -10,76 +10,47 @@ from typing import Any, Callable
 @dataclass
 class StatusElementNotification:
     """
-    A notification that can be displayed by a Streamlit widget.
-
-    Parameters
-    ----------
-    base_widget : Callable
-        The original Streamlit widget function to use for display
-    args : OrderedDict[str, Any]
-        Arguments to pass to the base widget when displayed
-    priority : int, optional
-        Priority of the notification. Higher values indicate higher priority.
-        Defaults to 0.
-    data : Any, optional
-        Additional data to store with the notification. Defaults to None.
-
-    Attributes
-    ----------
-    base_widget : Callable
-        The original Streamlit widget function to use for display
-    args : OrderedDict[str, Any]
-        Arguments to pass to the base widget when displayed
-    priority : int
-        Priority of the notification. Higher values indicate higher priority.
-    data : Any
-        Additional data stored with the notification.
+    Represents a notification for a Streamlit widget.
     """
 
-    base_widget: Callable
+    base_widget: Callable[..., Any]
     args: OrderedDict[str, Any]
     priority: int = 0
     data: Any = None
 
     def notify(self) -> None:
-        """
-        Display the notification using the base widget.
-        """
+        """Display the notification using the widget."""
         self.base_widget(**self.args)
 
     @property
     def name(self) -> str:
-        """
-        Get the name of the base widget.
-
-        Returns
-        -------
-        str
-            The name of the base widget.
-        """
+        """Get the name of the widget function."""
         return self.base_widget.__name__
 
     def __repr__(self) -> str:
-        """
-        String representation of the notification.
-
-        Returns
-        -------
-        str
-            The string representation of the notification.
-        """
+        """String representation of the notification."""
         return (
             f"WidgetNotification(base_widget={self.base_widget.__name__}, args={self.args}, "
             f"priority={self.priority}, data={self.data})"
         )
-    
-    def __name__(self) -> str:
-        """
-        Get the name of the notification.
 
-        Returns
-        -------
-        str
-            The name of the notification.
-        """
+    def __name__(self) -> str:
+        """Get the name of the notification."""
         return self.name
+
+    def __str__(self) -> str:
+        """String representation of the notification."""
+        return self.__repr__()
+
+    def __eq__(self, other: object) -> bool:
+        """
+        Check if this notification is equal to another.
+        """
+        if not isinstance(other, StatusElementNotification):
+            return False
+        return (
+            self.base_widget == other.base_widget
+            and self.args == other.args
+            and self.priority == other.priority
+            and self.data == other.data
+        )

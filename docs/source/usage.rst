@@ -5,13 +5,13 @@ Rather than show notifications immediately, you can queue them up and display th
 This is useful if you want to rerun your app and notify users of a change after the rerun.
 
 Supported Status Elements
-------------------------
+-------------------------
 
 .. code-block:: python
 
     import streamlit_notify as stn
 
-    # use stn status widgets exactly like you would use a streamlit status widget
+    # Use stn status widgets exactly like you would use a streamlit status widget
     stn.toast("This is a toast message", icon="✅")
     stn.balloons()
     stn.snow()
@@ -25,8 +25,7 @@ Supported Status Elements
 Basic Usage
 -----------
 
-By default,
-displaying a notification will also clear it from its associated queue, but you can change this behavior by 
+By default, displaying a notification will also clear it from its associated queue, but you can change this behavior by 
 specifying `remove=False` to any notify function.
 
 .. code-block:: python
@@ -52,44 +51,43 @@ specifying `remove=False` to any notify function.
 
 
 Other features
----------------------
+--------------
 
-All stn status elements can be called exactly like their streamlit counterpart, but come with some additional 
+All stn status elements can be called exactly like their Streamlit counterpart, but come with some additional 
 features. For example, stn.success is actually a `RerunnableStatusElement` with the following methods:
 
 .. code-block:: python
 
     import streamlit_notify as stn
 
-    # queue a success message
-    stn.success("Operation successful!")  # Displays a success message
+    # Queue a success message
+    stn.success("Operation successful!")  # Adds a success notification to the queue
 
-    # create the underlying notification object without displaying it
-    # Creates a notification without displaying it
-    success_notification: stn.RerunnableStatusElement = stn.success.create_notification("Operation successful!")  
+    # Create the underlying notification object without adding it to the queue
+    success_notification = stn.success.create_notification("Operation successful!")
     print(success_notification)
 
-    # Displays all success notification but doesnt delete them from the queue
+    # Display all success notifications but don't delete them from the queue
     stn.success.notify(remove=False)
-    stn.success.notify()  #  Same but removes the notification from the queue
-    
-    # Checks if there are any notifications in the success queue
-    has_notification: bool = stn.success.has_notifications()  
+    stn.success.notify()  # Same but removes the notifications from the queue
+
+    # Check if there are any notifications in the success queue
+    has_notification = len(stn.success.notifications) > 0
 
     # Clear the success notification queue
-    stn.success.clear_notifications()  
+    stn.success.notifications.clear()
 
     # Get the first notification from the success queue
-    popped_notification: stn.RerunnableStatusElement | None = stn.success.pop_notification()
+    popped_notification = stn.success.notifications.pop()
 
-    # Adds a notification to the success queue
-    stn.success.add_notification(success_notification)
+    # Add a notification to the success queue
+    stn.success.notifications.append(success_notification)
 
-    # Gets all notifications in the success queue  
-    notifications: list[stn.RerunnableStatusElement] = stn.success.get_notifications()  
+    # Get all notifications in the success queue  
+    notifications = stn.success.notifications.get_all()
 
-    # can also display the notification directly
-    success_notification.notify()  # Displays the notification and removes it from the queue
+    # You can also display the notification directly
+    success_notification.notify()  # Displays the notification
 
 
 Notification Priority
@@ -105,7 +103,7 @@ Otherwise, notifications are displayed in the order they were added:
     stn.info("Low priority message", priority=-5)
 
 Adding Custom Data to Notifications
-----------------------------------
+-----------------------------------
 
 You can attach custom data to notifications:
 
@@ -128,7 +126,7 @@ You can access notifications in different ways:
     toast_notifications = notifications['toast']
 
     # Or get them directly from the widget
-    error_notifications = stn.error.get_notifications()
+    error_notifications = stn.error.notifications.get_all()
 
 Managing Notifications
 ----------------------
@@ -141,13 +139,13 @@ Clear notifications when you no longer need them:
     stn.clear_all_notifications()
 
     # Clear notifications of only a specific type
-    stn.error.clear_notifications()
+    stn.error.notifications.clear()
 
     # Check if any notifications exist
     has_notifications = stn.has_any_notifications()
     
     # Check for specific type
-    has_errors = stn.error.has_notifications()
+    has_errors = len(stn.error.notifications) > 0
 
 
 Advanced Usage
@@ -185,30 +183,28 @@ Super Advanced Usage
     import streamlit as st
     import streamlit_notify as stn
 
-    # loop over notifications and display those with valid data
-    for error_notification in stn.error.get_notifications():
-
+    # Loop over notifications and display those with valid data
+    for error_notification in stn.error.notifications.get_all():
         priority = error_notification.priority
         data = error_notification.data
 
-        # only show notifications with valid data (data=True)
+        # Only show notifications with valid data (data=True)
         if data == True:
             error_notification.notify()
 
-    # will be shown
+    # Will be shown
     if st.button("Show Error Message1"):
         stn.error("Operation Error1!", data=True)
         st.rerun()
 
-    # will not be shown
+    # Will not be shown
     if st.button("Show Error Message2"):
         stn.error("Operation Error2!", data=False)
         st.rerun()
 
 
-
 Where are Status Elements Stored?
------------
+---------------------------------
 
 The status elements are stored in a session state queue, under the key: `ST_NOTIFY_{WIDGETNAME}_QUEUE`.
 
@@ -216,12 +212,16 @@ For example, stn.success would be stored by the key: `ST_NOTIFY_SUCCESS_QUEUE`
 
 
 What are Status Elements?
------------
+-------------------------
 
 Status elements are special notifications that are displayed in the Streamlit app, such as toasts, 
 balloons, and success messages. They can be used to provide feedback to users about the status of their 
 actions or the state of the application.
 
+They are stored as a dataclass `StatusElementNotification`, please refer to the :doc:`dclass documentation <api/dclass>` 
+for more details.
+
+For more examples, please refer to the :doc:`API documentation <api/index>`.
 They are stored as a dataclass `StatusElementNotification`, please refer to the :doc:`dclass documentation <api/dclass>` 
 for more details.
 

@@ -33,7 +33,6 @@ To view the documentation, open `build/html/index.html` in your browser.
   - `conf.py`: Configuration file for Sphinx
   - `index.rst`: Main index file
   - `api/`: API documentation
-  - `_static/`: Static files (CSS, images, etc.)
   - `_templates/`: Custom templates
 
 ## Read the Docs

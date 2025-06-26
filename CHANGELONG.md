@@ -1,3 +1,10 @@
+### v0.2.0
+- extras.py - for compatibility with streamlit extras
+- basic tests
+- ability to remove notifications
+- direct access of notifications through widget.notifications
+- big refactor
+
 ### v0.1.1
 - readthedocs
 - bug fix
