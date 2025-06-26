@@ -79,22 +79,17 @@ def notify(
 
 
 def create_notification(
-    notification_type: Literal[
-        "toast",
-        "balloons",
-        "snow",
-        "success",
-        "info",
-        "error",
-        "warning",
-        "exception",
-    ],
     *args: Any,
     **kwargs: Any,
 ) -> StatusElementNotification:
     """
     Create a notification without adding it to the queue.
     """
+
+    notification_type = kwargs.pop("notification_type", None)
+    if notification_type is None:
+        raise ValueError("notification_type must be provided as a keyword argument.")
+    
     if notification_type in STATUS_ELEMENTS:
         return STATUS_ELEMENTS[notification_type].create_notification(*args, **kwargs)
     else:
