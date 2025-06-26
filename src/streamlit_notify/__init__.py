@@ -67,7 +67,7 @@ def get_all_notifications() -> dict[str, list[Any]]:
         dict[str, list[Any]]: A dictionary mapping widget names to their notification lists.
     """
     return {
-        name: list(widget.notifications) for name, widget in STATUS_ELEMENTS.items()
+        name: widget.notifications.get_all() for name, widget in STATUS_ELEMENTS.items()
     }
 
 
