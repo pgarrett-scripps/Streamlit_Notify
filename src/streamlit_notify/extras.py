@@ -4,6 +4,7 @@ Functional API for Streamlit Notify (For Streamlit Extras)
 
 from typing import Any, Literal, Optional
 
+from .dclass import StatusElementNotification
 from .queue import NotificationQueue
 from . import STATUS_ELEMENTS
 
@@ -90,7 +91,7 @@ def create_notification(
     ],
     *args: Any,
     **kwargs: Any,
-) -> Any:
+) -> StatusElementNotification:
     """
     Create a notification without adding it to the queue.
     """
