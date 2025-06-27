@@ -8,6 +8,10 @@ from .dclass import StatusElementNotification
 from .queue import NotificationQueue
 from . import STATUS_ELEMENTS
 
+NotificationType = Literal[
+    "toast", "balloons", "snow", "success", 
+    "info", "error", "warning", "exception"
+]
 
 def toast_stn(*args: Any, **kwargs: Any) -> None:
     """Display a toast notification."""
@@ -51,18 +55,7 @@ def exception_stn(*args: Any, **kwargs: Any) -> None:
 
 def notify(
     remove: bool = True,
-    notification_type: Optional[
-        Literal[
-            "toast",
-            "balloons",
-            "snow",
-            "success",
-            "info",
-            "error",
-            "warning",
-            "exception",
-        ]
-    ] = None,
+    notification_type: Optional[NotificationType] = None,
 ) -> None:
     """
     Display queued notifications.
@@ -97,18 +90,7 @@ def create_notification(
             f"Invalid element: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
         )
 
-def get_notifications(
-    notification_type: Literal[
-        "toast",
-        "balloons",
-        "snow",
-        "success",
-        "info",
-        "error",
-        "warning",
-        "exception",
-    ],
-) -> NotificationQueue:
+def get_notifications(notification_type: NotificationType) -> NotificationQueue:
     """
     Retrieve notifications for a specific type.
     """

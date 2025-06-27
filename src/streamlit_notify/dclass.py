@@ -26,31 +26,3 @@ class StatusElementNotification:
     def name(self) -> str:
         """Get the name of the widget function."""
         return self.base_widget.__name__
-
-    def __repr__(self) -> str:
-        """String representation of the notification."""
-        return (
-            f"WidgetNotification(base_widget={self.base_widget.__name__}, args={self.args}, "
-            f"priority={self.priority}, data={self.data})"
-        )
-
-    def __name__(self) -> str:
-        """Get the name of the notification."""
-        return self.name
-
-    def __str__(self) -> str:
-        """String representation of the notification."""
-        return self.__repr__()
-
-    def __eq__(self, other: object) -> bool:
-        """
-        Check if this notification is equal to another.
-        """
-        if not isinstance(other, StatusElementNotification):
-            return False
-        return (
-            self.base_widget == other.base_widget
-            and self.args == other.args
-            and self.priority == other.priority
-            and self.data == other.data
-        )

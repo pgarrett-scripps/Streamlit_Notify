@@ -2,7 +2,8 @@
 Queue management for Streamlit notifications.
 """
 
-from typing import Iterable, List, Optional, Union
+from typing import Dict, Iterable, List, Optional, Union
+import copy
 
 import streamlit as st
 
@@ -56,7 +57,9 @@ class NotificationQueue:
     def remove(self, item: Union[StatusElementNotification, int]) -> None:
         """Remove an item from the queue."""
         if isinstance(item, int):
-            _ = self.pop(index=item)
+            if not (0 <= item < len(self.queue)):
+                raise IndexError(f"Index {item} out of range for queue of size {len(self.queue)}")
+            self.queue.pop(item)
             return
 
         if item in self.queue:
@@ -71,7 +74,7 @@ class NotificationQueue:
 
     def get_all(self) -> List[StatusElementNotification]:
         """Get all items in the queue."""
-        return self.queue
+        return self.queue.copy()  # Return a copy to prevent external modification
 
     def clear(self) -> None:
         """Clear the queue."""
@@ -79,15 +82,23 @@ class NotificationQueue:
 
     def pop(self, index: int = 0) -> Optional[StatusElementNotification]:
         """Pop an item from the queue."""
-        if self.queue:
-            return self.queue.pop(index)
-        return None
+        if not self.queue:
+            return None
+        
+        if not (0 <= index < len(self.queue)):
+            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
+        
+        return self.queue.pop(index)
 
     def get(self, index: int = 0) -> Optional[StatusElementNotification]:
         """Get an item from the queue without removing it."""
-        if self.queue:
-            return self.queue[index]
-        return None
+        if not self.queue:
+            return None
+            
+        if not (0 <= index < len(self.queue)):
+            return None  # Could also raise IndexError for consistency
+            
+        return self.queue[index]
 
     def size(self) -> int:
         """Get the size of the queue."""
@@ -99,11 +110,11 @@ class NotificationQueue:
 
     def __repr__(self) -> str:
         """String representation of the queue."""
-        return f"NotificationQueue(name={self.queue_name}, items={len(self.queue)})"
+        return f"NotificationQueue(name={self.queue_name!r}, items={len(self.queue)})"
 
     def __str__(self) -> str:
         """String representation of the queue."""
-        return f"NotificationQueue({self.queue_name}, {list(self.queue)})"
+        return f"NotificationQueue({self.queue_name}, {len(self.queue)} items)"
 
     def __bool__(self) -> bool:
         """Boolean representation of the queue."""
@@ -115,17 +126,20 @@ class NotificationQueue:
 
     def __getitem__(self, index: int) -> StatusElementNotification:
         """Get an item by index."""
-        item = self.get(index=index)
-        if item is None:
-            raise IndexError("Index out of range")
-        return item
+        if not (0 <= index < len(self.queue)):
+            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
+        return self.queue[index]
 
     def __setitem__(self, index: int, value: StatusElementNotification) -> None:
         """Set an item by index."""
+        if not (0 <= index < len(self.queue)):
+            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
         self.queue[index] = value
 
     def __delitem__(self, index: int) -> None:
         """Delete an item by index."""
+        if not (0 <= index < len(self.queue)):
+            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
         del self.queue[index]
 
     def __hash__(self) -> int:
@@ -136,11 +150,10 @@ class NotificationQueue:
         """Check if this queue is equal to another."""
         if not isinstance(other, NotificationQueue):
             return False
-        if self.queue_name != other.queue_name:
-            return False
-        if self.get_all() != other.get_all():
-            return False
-        return True
+        return (
+            self.queue_name == other.queue_name 
+            and self.get_all() == other.get_all()
+        )
 
     def __ne__(self, other: object) -> bool:
         """Check if this queue is not equal to another."""
@@ -162,6 +175,14 @@ class NotificationQueue:
 
     def __copy__(self):
         """Create a shallow copy of the queue."""
-        new_queue = NotificationQueue(self.queue_name)
+        new_queue = NotificationQueue(f"{self.queue_name}_copy")
+        new_queue.queue_name = self.queue_name  # Keep original name for copy
         new_queue.extend(self.get_all())
+        return new_queue
+
+    def __deepcopy__(self, memo: Dict[int, object]):
+        """Create a deep copy of the queue."""
+        new_queue = NotificationQueue(f"{self.queue_name}_copy")
+        new_queue.queue_name = self.queue_name  # Keep original name for copy
+        new_queue.extend(copy.deepcopy(self.get_all(), memo))
         return new_queue
