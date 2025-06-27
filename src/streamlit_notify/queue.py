@@ -58,7 +58,9 @@ class NotificationQueue:
         """Remove an item from the queue."""
         if isinstance(item, int):
             if not (0 <= item < len(self.queue)):
-                raise IndexError(f"Index {item} out of range for queue of size {len(self.queue)}")
+                raise IndexError(
+                    f"Index {item} out of range for queue of size {len(self.queue)}"
+                )
             self.queue.pop(item)
             return
 
@@ -84,20 +86,22 @@ class NotificationQueue:
         """Pop an item from the queue."""
         if not self.queue:
             return None
-        
+
         if not (0 <= index < len(self.queue)):
-            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
-        
+            raise IndexError(
+                f"Index {index} out of range for queue of size {len(self.queue)}"
+            )
+
         return self.queue.pop(index)
 
     def get(self, index: int = 0) -> Optional[StatusElementNotification]:
         """Get an item from the queue without removing it."""
         if not self.queue:
             return None
-            
+
         if not (0 <= index < len(self.queue)):
             return None  # Could also raise IndexError for consistency
-            
+
         return self.queue[index]
 
     def size(self) -> int:
@@ -127,19 +131,25 @@ class NotificationQueue:
     def __getitem__(self, index: int) -> StatusElementNotification:
         """Get an item by index."""
         if not (0 <= index < len(self.queue)):
-            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
+            raise IndexError(
+                f"Index {index} out of range for queue of size {len(self.queue)}"
+            )
         return self.queue[index]
 
     def __setitem__(self, index: int, value: StatusElementNotification) -> None:
         """Set an item by index."""
         if not (0 <= index < len(self.queue)):
-            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
+            raise IndexError(
+                f"Index {index} out of range for queue of size {len(self.queue)}"
+            )
         self.queue[index] = value
 
     def __delitem__(self, index: int) -> None:
         """Delete an item by index."""
         if not (0 <= index < len(self.queue)):
-            raise IndexError(f"Index {index} out of range for queue of size {len(self.queue)}")
+            raise IndexError(
+                f"Index {index} out of range for queue of size {len(self.queue)}"
+            )
         del self.queue[index]
 
     def __hash__(self) -> int:
@@ -150,10 +160,7 @@ class NotificationQueue:
         """Check if this queue is equal to another."""
         if not isinstance(other, NotificationQueue):
             return False
-        return (
-            self.queue_name == other.queue_name 
-            and self.get_all() == other.get_all()
-        )
+        return self.queue_name == other.queue_name and self.get_all() == other.get_all()
 
     def __ne__(self, other: object) -> bool:
         """Check if this queue is not equal to another."""

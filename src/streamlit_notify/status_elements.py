@@ -65,7 +65,7 @@ class RerunnableStatusElement:
 
     def notify(self, remove: bool = True) -> None:
         """
-        Display all queued notifications. Will display in order of priority and remove 
+        Display all queued notifications. Will display in order of priority and remove
         from queue if specified.
         """
         if remove:

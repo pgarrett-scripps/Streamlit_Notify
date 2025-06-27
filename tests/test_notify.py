@@ -6,6 +6,7 @@ These tests verify that notifications work correctly in a simulated Streamlit ap
 
 from streamlit.testing.v1 import AppTest
 
+
 def _helper(button_key: str, st_attribute: str, session_state_key: str):
 
     # Create an AppTest instance from our test app
@@ -29,6 +30,7 @@ def _helper(button_key: str, st_attribute: str, session_state_key: str):
     # After triggering notify_all, should see the notification
     assert len(getattr(at, st_attribute)) == 1
     assert len(at.session_state[session_state_key]) == 0
+
 
 class TestStreamlitNotifyIntegration:
     """Integration tests for streamlit_notify using AppTest."""

@@ -9,9 +9,9 @@ from .queue import NotificationQueue
 from . import STATUS_ELEMENTS
 
 NotificationType = Literal[
-    "toast", "balloons", "snow", "success", 
-    "info", "error", "warning", "exception"
+    "toast", "balloons", "snow", "success", "info", "error", "warning", "exception"
 ]
+
 
 def toast_stn(*args: Any, **kwargs: Any) -> None:
     """Display a toast notification."""
@@ -82,13 +82,14 @@ def create_notification(
     notification_type = kwargs.pop("notification_type", None)
     if notification_type is None:
         raise ValueError("notification_type must be provided as a keyword argument.")
-    
+
     if notification_type in STATUS_ELEMENTS:
         return STATUS_ELEMENTS[notification_type].create_notification(*args, **kwargs)
     else:
         raise ValueError(
             f"Invalid element: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
         )
+
 
 def get_notifications(notification_type: NotificationType) -> NotificationQueue:
     """
