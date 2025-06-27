@@ -20,14 +20,18 @@ class NotificationQueue:
     A queue for managing Streamlit notifications.
     """
 
-    def __init__(self, queue_name: str, sort_func: Optional[Callable[[StatusElementNotification], int]] = None) -> None:
+    def __init__(
+        self,
+        queue_name: str,
+        sort_func: Optional[Callable[[StatusElementNotification], int]] = None,
+    ) -> None:
         """Initialize the queue."""
         self._queue_name: str = queue_name
 
         if sort_func is None:
             sort_func = default_sort_func
         self._sort_func: Callable[[StatusElementNotification], int] = sort_func
-        
+
         self._ensure_queue()
 
     @property
@@ -35,12 +39,12 @@ class NotificationQueue:
         """Get the current queue."""
         self._ensure_queue()
         return st.session_state[self._queue_name]
-    
+
     @property
     def queue_name(self) -> str:
         """Get the name of the queue."""
         return self._queue_name
-    
+
     @property
     def sort_func(self) -> Callable[[StatusElementNotification], int]:
         """Get the sorting function for the queue."""
@@ -180,7 +184,9 @@ class NotificationQueue:
         """Check if this queue is equal to another."""
         if not isinstance(other, NotificationQueue):
             return False
-        return self._queue_name == other._queue_name and self.get_all() == other.get_all()
+        return (
+            self._queue_name == other._queue_name and self.get_all() == other.get_all()
+        )
 
     def __ne__(self, other: object) -> bool:
         """Check if this queue is not equal to another."""

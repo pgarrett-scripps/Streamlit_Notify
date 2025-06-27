@@ -102,4 +102,3 @@ class TestStreamlitNotifyIntegration:
     def test_balloons_notification_in_app(self):
         """Test that balloons notifications work in a Streamlit app context."""
         pass
-

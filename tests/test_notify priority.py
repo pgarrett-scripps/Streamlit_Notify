@@ -7,7 +7,6 @@ These tests verify that notifications work correctly in a simulated Streamlit ap
 from streamlit.testing.v1 import AppTest
 
 
-
 class TestStreamlitNotifyIntegration:
     """Integration tests for streamlit_notify using AppTest."""
 
@@ -22,11 +21,11 @@ class TestStreamlitNotifyIntegration:
         at.run()
 
         # Click the success button
-        at.button(key='success_btn').click()
+        at.button(key="success_btn").click()
         at.run()
 
         # Check that notification is queued but not displayed yet
-        assert len(getattr(at, 'success')) == 0
+        assert len(getattr(at, "success")) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 3
 
         # Click rerun button to trigger notify_all
@@ -34,8 +33,8 @@ class TestStreamlitNotifyIntegration:
         at.run()
 
         # After triggering notify_all, should see the notification
-        assert len(getattr(at, 'success')) == 3
+        assert len(getattr(at, "success")) == 3
         assert len(at.session_state[stn.success.session_state_key]) == 0
 
         for i in range(3):
-            assert getattr(at, 'success')[i].body == str(3-i)
+            assert getattr(at, "success")[i].body == str(3 - i)
