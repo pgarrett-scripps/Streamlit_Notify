@@ -2,7 +2,7 @@
 Functional API for Streamlit Notify (For Streamlit Extras)
 """
 
-from typing import Any, Literal, Optional
+from typing import Any, Iterable, List, Literal, Optional, Union
 
 from .dclass import StatusElementNotification
 from .queue import NotificationQueue
@@ -55,20 +55,29 @@ def exception_stn(*args: Any, **kwargs: Any) -> None:
 
 def notify(
     remove: bool = True,
-    notification_type: Optional[NotificationType] = None,
+    notification_type: Optional[
+        Union[NotificationType, Iterable[NotificationType]]
+    ] = None,
 ) -> None:
     """
     Display queued notifications.
     """
-    if notification_type is None:
-        for widget in STATUS_ELEMENTS.values():
-            widget.notify(remove=remove)
-    elif notification_type in STATUS_ELEMENTS:
-        STATUS_ELEMENTS[notification_type].notify(remove=remove)
-    else:
-        raise ValueError(
-            f"Invalid filter: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
+    types = (
+        list(STATUS_ELEMENTS.keys())
+        if notification_type is None
+        else (
+            [notification_type]
+            if isinstance(notification_type, str)
+            else list(notification_type)
         )
+    )
+    for nt in types:
+        if nt in STATUS_ELEMENTS:
+            STATUS_ELEMENTS[nt].notify(remove=remove)
+        else:
+            raise ValueError(
+                f"Invalid filter: {nt}. Must be one of {list(STATUS_ELEMENTS.keys())}."
+            )
 
 
 def create_notification(
@@ -91,7 +100,37 @@ def create_notification(
         )
 
 
-def get_notifications(notification_type: NotificationType) -> NotificationQueue:
+def get_notifications(
+    notification_type: Optional[
+        Union[NotificationType, Iterable[NotificationType]]
+    ] = None,
+) -> List[StatusElementNotification]:
+    if notification_type is None:
+        return [
+            n
+            for widget in STATUS_ELEMENTS.values()
+            for n in widget.notifications.get_all()
+        ]
+    if isinstance(notification_type, str):
+        if notification_type in STATUS_ELEMENTS:
+            return STATUS_ELEMENTS[notification_type].notifications.get_all()
+        raise ValueError(
+            f"Invalid filter: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
+        )
+    try:
+        return [
+            n
+            for nt in notification_type
+            if nt in STATUS_ELEMENTS
+            for n in STATUS_ELEMENTS[nt].notifications.get_all()
+        ]
+    except Exception:
+        raise ValueError(
+            f"Invalid filter: {notification_type}. Must be one of {list(STATUS_ELEMENTS.keys())}."
+        )
+
+
+def get_notification_queue(notification_type: NotificationType) -> NotificationQueue:
     """
     Retrieve notifications for a specific type.
     """

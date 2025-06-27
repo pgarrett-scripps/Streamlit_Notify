@@ -65,7 +65,7 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
 
     def test_queue_initialization(self):
         """Test that queue is properly initialized."""
-        self.assertEqual(self.queue.queue_name, self.queue_name)
+        self.assertEqual(self.queue._queue_name, self.queue_name)
         self.assertIn(self.queue_name, self.mock_session_state)
         self.assertEqual(self.mock_session_state[self.queue_name], [])
 
@@ -281,7 +281,7 @@ class TestNotificationQueue(unittest.TestCase):
 
     def test_notification_queue_initialization(self):
         """Test that NotificationQueue is properly initialized."""
-        self.assertEqual(self.notification_queue.queue_name, self.queue_name)
+        self.assertEqual(self.notification_queue._queue_name, self.queue_name)
         self.assertIsInstance(self.notification_queue, NotificationQueue)
 
     def test_add_notification(self):

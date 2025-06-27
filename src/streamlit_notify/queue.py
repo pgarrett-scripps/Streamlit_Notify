@@ -2,7 +2,7 @@
 Queue management for Streamlit notifications.
 """
 
-from typing import Dict, Iterable, List, Optional, Union
+from typing import Dict, Iterable, List, Optional, Union, Callable
 import copy
 
 import streamlit as st
@@ -10,7 +10,7 @@ import streamlit as st
 from .dclass import StatusElementNotification
 
 
-def _sort_func(x: StatusElementNotification) -> int:
+def default_sort_func(x: StatusElementNotification) -> int:
     """Sort notifications by priority (highest first)."""
     return -x.priority
 
@@ -20,21 +20,40 @@ class NotificationQueue:
     A queue for managing Streamlit notifications.
     """
 
-    def __init__(self, queue_name: str) -> None:
+    def __init__(self, queue_name: str, sort_func: Optional[Callable[[StatusElementNotification], int]] = None) -> None:
         """Initialize the queue."""
-        self.queue_name = queue_name
+        self._queue_name: str = queue_name
+
+        if sort_func is None:
+            sort_func = default_sort_func
+        self._sort_func: Callable[[StatusElementNotification], int] = sort_func
+        
         self._ensure_queue()
 
     @property
     def queue(self) -> List[StatusElementNotification]:
         """Get the current queue."""
         self._ensure_queue()
-        return st.session_state[self.queue_name]
+        return st.session_state[self._queue_name]
+    
+    @property
+    def queue_name(self) -> str:
+        """Get the name of the queue."""
+        return self._queue_name
+    
+    @property
+    def sort_func(self) -> Callable[[StatusElementNotification], int]:
+        """Get the sorting function for the queue."""
+        return self._sort_func
 
     def _ensure_queue(self) -> None:
         """Ensure the queue exists in session state."""
-        if self.queue_name not in st.session_state:
-            st.session_state[self.queue_name] = []
+        if self._queue_name not in st.session_state:
+            st.session_state[self._queue_name] = []
+
+    def _sort(self) -> None:
+        """Sort the queue by priority."""
+        self.queue.sort(key=self._sort_func)
 
     def has_items(self) -> bool:
         """Check if the queue has items."""
@@ -47,12 +66,12 @@ class NotificationQueue:
     def append(self, item: StatusElementNotification) -> None:
         """Add an item to the queue."""
         self.queue.append(item)
-        self.queue.sort(key=_sort_func)
+        self._sort()
 
     def extend(self, items: Iterable[StatusElementNotification]) -> None:
         """Add multiple items to the queue."""
         self.queue.extend(items)
-        self.queue.sort(key=_sort_func)
+        self._sort()
 
     def remove(self, item: Union[StatusElementNotification, int]) -> None:
         """Remove an item from the queue."""
@@ -114,11 +133,11 @@ class NotificationQueue:
 
     def __repr__(self) -> str:
         """String representation of the queue."""
-        return f"NotificationQueue(name={self.queue_name!r}, items={len(self.queue)})"
+        return f"NotificationQueue(name={self._queue_name!r}, items={len(self.queue)})"
 
     def __str__(self) -> str:
         """String representation of the queue."""
-        return f"NotificationQueue({self.queue_name}, {len(self.queue)} items)"
+        return f"NotificationQueue({self._queue_name}, {len(self.queue)} items)"
 
     def __bool__(self) -> bool:
         """Boolean representation of the queue."""
@@ -143,6 +162,7 @@ class NotificationQueue:
                 f"Index {index} out of range for queue of size {len(self.queue)}"
             )
         self.queue[index] = value
+        self._sort()
 
     def __delitem__(self, index: int) -> None:
         """Delete an item by index."""
@@ -154,13 +174,13 @@ class NotificationQueue:
 
     def __hash__(self) -> int:
         """Hash of the queue based on its name."""
-        return hash(self.queue_name)
+        return hash(self._queue_name)
 
     def __eq__(self, other: object) -> bool:
         """Check if this queue is equal to another."""
         if not isinstance(other, NotificationQueue):
             return False
-        return self.queue_name == other.queue_name and self.get_all() == other.get_all()
+        return self._queue_name == other._queue_name and self.get_all() == other.get_all()
 
     def __ne__(self, other: object) -> bool:
         """Check if this queue is not equal to another."""
@@ -182,14 +202,14 @@ class NotificationQueue:
 
     def __copy__(self):
         """Create a shallow copy of the queue."""
-        new_queue = NotificationQueue(f"{self.queue_name}_copy")
-        new_queue.queue_name = self.queue_name  # Keep original name for copy
+        new_queue = NotificationQueue(f"{self._queue_name}_copy")
+        new_queue._queue_name = self._queue_name  # Keep original name for copy
         new_queue.extend(self.get_all())
         return new_queue
 
     def __deepcopy__(self, memo: Dict[int, object]):
         """Create a deep copy of the queue."""
-        new_queue = NotificationQueue(f"{self.queue_name}_copy")
-        new_queue.queue_name = self.queue_name  # Keep original name for copy
+        new_queue = NotificationQueue(f"{self._queue_name}_copy")
+        new_queue._queue_name = self._queue_name  # Keep original name for copy
         new_queue.extend(copy.deepcopy(self.get_all(), memo))
         return new_queue
