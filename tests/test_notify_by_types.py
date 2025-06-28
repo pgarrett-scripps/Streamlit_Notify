@@ -14,7 +14,7 @@ def app_script():
         stn.warning("Warning notification triggered!")
 
     if st.button("Rerun", key="rerun_btn"):
-        pass # button press will trigger a rerun
+        pass  # button press will trigger a rerun
 
 
 def app_script_all_types():
@@ -97,7 +97,7 @@ class TestStreamlitNotificationByTypes:
         at.run()
 
         # Check that no notifications are displayed initially
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
 
         # Click the success button
@@ -182,13 +182,13 @@ class TestStreamlitNotificationByTypes:
         assert len(at.success) == 1
         assert len(at.error) == 1
         assert len(at.warning) == 0  # Should not be displayed
-        assert len(at.info) == 0     # Should not be displayed
+        assert len(at.info) == 0  # Should not be displayed
 
         # Check that only success and error queues are cleared
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 0
         assert len(at.session_state[stn.warning.session_state_key]) == 1  # Still queued
-        assert len(at.session_state[stn.info.session_state_key]) == 1     # Still queued
+        assert len(at.session_state[stn.info.session_state_key]) == 1  # Still queued
 
     def test_notify_single_type_as_string(self):
         """Test notify with a single notification type as string."""
@@ -244,7 +244,9 @@ class TestStreamlitNotificationByTypes:
 
         # Check that notification is displayed but queue is NOT cleared
         assert len(at.success) == 1
-        assert len(at.session_state[stn.success.session_state_key]) == 1  # Still in queue
+        assert (
+            len(at.session_state[stn.success.session_state_key]) == 1
+        )  # Still in queue
 
     def test_notify_empty_queue(self):
         """Test notify when there are no notifications in queue."""

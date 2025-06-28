@@ -7,39 +7,31 @@ __version__ = "0.3.0"
 from typing import Any
 import streamlit as st
 
-from .status_elements import (
-    RerunnableStatusElement # type: ignore
-)
+from .status_elements import RerunnableStatusElement  # type: ignore
 from .functional import (
-    create_notification, # type: ignore
-    notify, # type: ignore
-    get_notifications, # type: ignore
-    clear_notifications, # type: ignore
-    get_notification_queue, # type: ignore
-    has_notifications, # type: ignore
+    create_notification,  # type: ignore
+    notify,  # type: ignore
+    get_notifications,  # type: ignore
+    clear_notifications,  # type: ignore
+    get_notification_queue,  # type: ignore
+    has_notifications,  # type: ignore
 )
-from .notification_queue import (
-    NotificationQueue # type: ignore
-)
-from .notification_dataclass import (
-    StatusElementNotification # type: ignore
-)
+from .notification_queue import NotificationQueue  # type: ignore
+from .notification_dataclass import StatusElementNotification  # type: ignore
 from .status_element_types import (
     STATUS_ELEMENTS,
-    NotificationType, # type: ignore
-    toast, # type: ignore
-    balloons, # type: ignore
-    snow, # type: ignore
-    success, # type: ignore
-    info, # type: ignore
-    error, # type: ignore
-    warning, # type: ignore
-    exception, # type: ignore
+    NotificationType,  # type: ignore
+    toast,  # type: ignore
+    balloons,  # type: ignore
+    snow,  # type: ignore
+    success,  # type: ignore
+    info,  # type: ignore
+    error,  # type: ignore
+    warning,  # type: ignore
+    exception,  # type: ignore
 )
 
-from .utils import (
-    get_status_element # type: ignore
-)
+from .utils import get_status_element  # type: ignore
 
 
 def init_session_state() -> None:

@@ -22,21 +22,22 @@ def app_script_get_notifications():
         notifications = stn.get_notifications()
         st.text(f"{len(notifications)}")
 
-        notifications = stn.get_notifications(notification_type=['success'])
+        notifications = stn.get_notifications(notification_type=["success"])
         st.text(f"{len(notifications)}")
 
-        notifications = stn.get_notifications(notification_type=['success', 'error'])
+        notifications = stn.get_notifications(notification_type=["success", "error"])
         st.text(f"{len(notifications)}")
 
     if st.button("Clear success notifications", key="clear_success_btn"):
-        stn.clear_notifications(notification_type=['success'])
+        stn.clear_notifications(notification_type=["success"])
 
     if st.button("Clear all notifications", key="clear_all_btn"):
         stn.clear_notifications()
 
-    if st.button("Clear success and error notifications", key="clear_success_error_btn"):
-        stn.clear_notifications(notification_type=['success', 'error'])
-
+    if st.button(
+        "Clear success and error notifications", key="clear_success_error_btn"
+    ):
+        stn.clear_notifications(notification_type=["success", "error"])
 
 
 class TestFunctionalAPI:
@@ -50,7 +51,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that no notifications are displayed initially
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 0
         assert len(at.session_state[stn.warning.session_state_key]) == 0
@@ -61,7 +62,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 1
         assert len(at.session_state[stn.error.session_state_key]) == 1
         assert len(at.session_state[stn.warning.session_state_key]) == 1
@@ -82,7 +83,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that no notifications are displayed initially
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 0
         assert len(at.session_state[stn.warning.session_state_key]) == 0
@@ -93,7 +94,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 1
         assert len(at.session_state[stn.error.session_state_key]) == 1
         assert len(at.session_state[stn.warning.session_state_key]) == 1
@@ -109,7 +110,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that no notifications are displayed initially
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 0
         assert len(at.session_state[stn.warning.session_state_key]) == 0
@@ -120,7 +121,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 1
         assert len(at.session_state[stn.error.session_state_key]) == 1
         assert len(at.session_state[stn.warning.session_state_key]) == 1
@@ -130,9 +131,8 @@ class TestFunctionalAPI:
         at.button(key="clear_success_btn").click()
         at.run()
 
-
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 1
         assert len(at.session_state[stn.warning.session_state_key]) == 1
@@ -143,19 +143,18 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 1
         assert len(at.session_state[stn.error.session_state_key]) == 2
         assert len(at.session_state[stn.warning.session_state_key]) == 2
         assert len(at.session_state[stn.info.session_state_key]) == 2
-
 
         # clear_success_error_btn
         at.button(key="clear_success_error_btn").click()
         at.run()
 
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 0
         assert len(at.session_state[stn.warning.session_state_key]) == 2
@@ -166,7 +165,7 @@ class TestFunctionalAPI:
         at.run()
 
         # Check that notifications are queued but not displayed yet
-        assert(len(at.success)) == 0
+        assert (len(at.success)) == 0
         assert len(at.session_state[stn.success.session_state_key]) == 0
         assert len(at.session_state[stn.error.session_state_key]) == 0
         assert len(at.session_state[stn.warning.session_state_key]) == 0

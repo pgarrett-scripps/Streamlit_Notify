@@ -76,7 +76,7 @@ def _resolve_types(
     ],
 ) -> List[NotificationStrTypes]:
     if notification_type is None:
-        return list(STATUS_ELEMENTS.keys()) # type: ignore
+        return list(STATUS_ELEMENTS.keys())  # type: ignore
     if isinstance(notification_type, str):
         return [notification_type]
     return list(notification_type)
@@ -134,6 +134,7 @@ def get_notification_queue(
     Retrieve notifications for a specific type.
     """
     return get_status_element(notification_type).notifications
+
 
 def has_notifications(
     notification_type: Optional[

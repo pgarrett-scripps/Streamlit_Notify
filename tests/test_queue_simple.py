@@ -152,7 +152,6 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
         with self.assertRaises(IndexError):
             _ = self.queue.pop()
 
-
     def test_get_notification(self):
         """Test getting a notification without removing it."""
         self.queue.append(self.notification1)
@@ -360,6 +359,7 @@ class TestNotificationQueue(unittest.TestCase):
         """Test getting from empty queue."""
         with self.assertRaises(IndexError):
             _ = self.notification_queue.get()
+
 
 if __name__ == "__main__":
     # Run the tests
