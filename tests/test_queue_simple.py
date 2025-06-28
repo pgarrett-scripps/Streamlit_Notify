@@ -9,7 +9,7 @@ from collections import OrderedDict
 
 # Import the classes we want to test
 from streamlit_notify.notification_queue import NotificationQueue
-from src.streamlit_notify.dclass import StatusElementNotification
+from streamlit_notify.notification_dataclass import StatusElementNotification
 
 
 class TestStreamlitNotificationQueue(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
         self.mock_st.session_state = self.mock_session_state
 
         # Patch streamlit import in the queue module
-        self.patcher = patch("src.streamlit_notify.queue.st", self.mock_st)
+        self.patcher = patch("streamlit_notify.notification_queue.st", self.mock_st)
         self.patcher.start()
 
         # Set up test queue
@@ -65,7 +65,7 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
 
     def test_queue_initialization(self):
         """Test that queue is properly initialized."""
-        self.assertEqual(self.queue._queue_name, self.queue_name)
+        self.assertEqual(self.queue.queue_name, self.queue_name)
         self.assertIn(self.queue_name, self.mock_session_state)
         self.assertEqual(self.mock_session_state[self.queue_name], [])
 
@@ -238,7 +238,7 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
         self.queue.append(self.notification1)
         self.queue.append(self.notification2)
 
-        notifications = list(self.queue)
+        notifications: list[StatusElementNotification] = list(self.queue)
 
         self.assertEqual(len(notifications), 2)
         self.assertEqual(notifications[0], self.notification2)  # priority 2
@@ -258,7 +258,7 @@ class TestNotificationQueue(unittest.TestCase):
         self.mock_st.session_state = self.mock_session_state
 
         # Patch streamlit import in the queue module
-        self.patcher = patch("src.streamlit_notify.queue.st", self.mock_st)
+        self.patcher = patch("src.streamlit_notify.notification_queue.st", self.mock_st)
         self.patcher.start()
 
         # Set up test queue
@@ -276,13 +276,15 @@ class TestNotificationQueue(unittest.TestCase):
             data="test_data",
         )
 
+        self.notification_queue.clear()
+
     def tearDown(self):
         """Clean up after each test method."""
         self.patcher.stop()
 
     def test_notification_queue_initialization(self):
         """Test that NotificationQueue is properly initialized."""
-        self.assertEqual(self.notification_queue._queue_name, self.queue_name)
+        self.assertEqual(self.notification_queue.queue_name, self.queue_name)
         self.assertIsInstance(self.notification_queue, NotificationQueue)
 
     def test_add_notification(self):

@@ -6,7 +6,7 @@ import inspect
 from typing import Any, Callable
 
 from .notification_queue import NotificationQueue
-from .dclass import StatusElementNotification
+from .notification_dataclass import StatusElementNotification
 
 
 class RerunnableStatusElement:
@@ -44,7 +44,7 @@ class RerunnableStatusElement:
 
     def setup_queue(self) -> None:
         """Ensure the notification queue is set up in session state."""
-        self._queue._ensure_queue()
+        self._queue.ensure_queue()
 
     def __call__(self, *args: Any, **kwargs: Any) -> None:
         """Add a notification to the queue."""
@@ -73,10 +73,8 @@ class RerunnableStatusElement:
         from queue if specified.
         """
         if remove:
-            while len(self.notifications) > 0:
+            while self.notifications.has_items():
                 notification = self.notifications.pop()
-                if notification is None:
-                    raise RuntimeError("Notification is None after length check.")
                 notification.notify()
         else:
             for notification in self.notifications.get_all():

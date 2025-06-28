@@ -1,7 +1,7 @@
 from typing import Union
-from build.lib.streamlit_notify import STATUS_ELEMENTS
-from streamlit_notify.constants import NotificationType
-from streamlit_notify.status_elements import RerunnableStatusElement
+
+from .status_element_types import NotificationType, STATUS_ELEMENTS
+from .status_elements import RerunnableStatusElement
 
 
 def get_status_element(

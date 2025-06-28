@@ -4,9 +4,9 @@ Functional API for Streamlit Notify (For Streamlit Extras)
 
 from typing import Any, Iterable, List, Literal, Optional, Union
 
-from .dclass import StatusElementNotification
+from .notification_dataclass import StatusElementNotification
 from .notification_queue import NotificationQueue
-from .constants import STATUS_ELEMENTS, NotificationType
+from .status_element_types import STATUS_ELEMENTS, NotificationType
 from .utils import get_status_element
 
 
@@ -67,16 +67,16 @@ def create_notification(
     if notification_type is None:
         raise ValueError("notification_type must be provided as a keyword argument.")
 
-    get_status_element(notification_type).create_notification(*args, **kwargs)
+    return get_status_element(notification_type).create_notification(*args, **kwargs)
 
 
 def _resolve_types(
     notification_type: Optional[
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ],
-) -> List[NotificationType]:
+) -> List[NotificationStrTypes]:
     if notification_type is None:
-        return list(STATUS_ELEMENTS.keys())
+        return list(STATUS_ELEMENTS.keys()) # type: ignore
     if isinstance(notification_type, str):
         return [notification_type]
     return list(notification_type)
@@ -106,7 +106,7 @@ def get_notifications(
     If no type is specified, retrieves all notifications.
     """
     types = _resolve_types(notification_type)
-    notifications = []
+    notifications: List[StatusElementNotification] = []
     for nt in types:
         notifications.extend(get_status_element(nt).notifications.get_all())
 

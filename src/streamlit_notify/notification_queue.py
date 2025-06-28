@@ -2,12 +2,12 @@
 Queue management for Streamlit notifications.
 """
 
-from typing import Dict, Iterable, List, Optional, Union, Callable
+from typing import Dict, Generator, Iterable, List, Optional, Union, Callable
 import copy
 
 import streamlit as st
 
-from .dclass import StatusElementNotification
+from .notification_dataclass import StatusElementNotification
 
 
 def default_sort_func(x: StatusElementNotification) -> int:
@@ -32,12 +32,12 @@ class NotificationQueue:
             sort_func = default_sort_func
         self._sort_func: Callable[[StatusElementNotification], int] = sort_func
 
-        self._ensure_queue()
+        self.ensure_queue()
 
     @property
     def queue(self) -> List[StatusElementNotification]:
         """Get the current queue."""
-        self._ensure_queue()
+        self.ensure_queue()
         return st.session_state[self._queue_name]
 
     @property
@@ -50,7 +50,7 @@ class NotificationQueue:
         """Get the sorting function for the queue."""
         return self._sort_func
 
-    def _ensure_queue(self) -> None:
+    def ensure_queue(self) -> None:
         """Ensure the queue exists in session state."""
         if self._queue_name not in st.session_state:
             st.session_state[self._queue_name] = []
@@ -169,11 +169,11 @@ class NotificationQueue:
             return NotImplemented
         return self.size() < other.size()
 
-    def __iter__(self) -> Iterable[StatusElementNotification]:
+    def __iter__(self) -> Generator[StatusElementNotification, None, None]:
         """Iterate over the notifications in the queue."""
         yield from self.queue.copy()
 
-    def __reversed__(self) -> Iterable[StatusElementNotification]:
+    def __reversed__(self) -> Generator[StatusElementNotification, None, None]:
         """Iterate over the notifications in reverse order."""
         yield from reversed(self.queue.copy())
 

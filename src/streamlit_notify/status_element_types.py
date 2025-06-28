@@ -1,5 +1,4 @@
 # Define notification widgets
-from typing import Union
 import streamlit as st
 from .status_elements import RerunnableStatusElement
 from enum import Enum
