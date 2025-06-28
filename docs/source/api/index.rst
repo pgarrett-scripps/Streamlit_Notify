@@ -8,6 +8,6 @@ This section provides detailed API documentation for all modules in the streamli
 
    streamlit_notify
    dclass
-   queue
+   notification_queue
    status_elements
-   extras
+   functional

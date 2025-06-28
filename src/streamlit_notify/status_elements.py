@@ -5,7 +5,7 @@ Widgets with notification queueing for Streamlit.
 import inspect
 from typing import Any, Callable
 
-from .queue import NotificationQueue
+from .notification_queue import NotificationQueue
 from .dclass import StatusElementNotification
 
 
@@ -41,6 +41,10 @@ class RerunnableStatusElement:
     def notifications(self) -> NotificationQueue:
         """Get the notification queue."""
         return self._queue
+
+    def setup_queue(self) -> None:
+        """Ensure the notification queue is set up in session state."""
+        self._queue._ensure_queue()
 
     def __call__(self, *args: Any, **kwargs: Any) -> None:
         """Add a notification to the queue."""

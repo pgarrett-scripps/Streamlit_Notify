@@ -7,68 +7,42 @@ __version__ = "0.2.1"
 from typing import Any
 import streamlit as st
 from .status_elements import RerunnableStatusElement
-from .queue import NotificationQueue  # type: ignore
+from .functional import (
+    create_notification,
+    notify,
+    get_notifications,
+    clear_notifications,
+    get_notification_queue,
+    has_notifications,
+)
+from .notification_queue import NotificationQueue  # type: ignore
 from .dclass import StatusElementNotification  # type: ignore
+from .constants import (
+    STATUS_ELEMENTS,
+    NotificationType,
+    toast,
+    balloons,
+    snow,
+    success,
+    info,
+    error,
+    warning,
+    exception,
+)  # type: ignore
 
-# Define notification widgets
-toast = RerunnableStatusElement(st.toast)
-balloons = RerunnableStatusElement(st.balloons)
-snow = RerunnableStatusElement(st.snow)
-success = RerunnableStatusElement(st.success)
-info = RerunnableStatusElement(st.info)
-error = RerunnableStatusElement(st.error)
-warning = RerunnableStatusElement(st.warning)
-exception = RerunnableStatusElement(st.exception)
-
-STATUS_ELEMENTS = {
-    "toast": toast,
-    "balloons": balloons,
-    "snow": snow,
-    "success": success,
-    "info": info,
-    "error": error,
-    "warning": warning,
-    "exception": exception,
-}
+from .utils import get_status_element  # type: ignore
 
 
-def notify_all(remove: bool = True) -> None:
+def init_session_state() -> None:
     """
-    Display all queued notifications.
-
-    Parameters:
-        remove (bool): If True, remove notifications after displaying. Defaults to True.
+    Initialize session state for all notification elements.
+    This ensures that the notification queues are set up in the session state.
     """
-    for widget in STATUS_ELEMENTS.values():
-        widget.notify(remove=remove)
+    for name, element in STATUS_ELEMENTS.items():
+        element.setup_queue()
 
 
-def has_any_notifications() -> bool:
-    """
-    Check if there are any queued notifications.
-
-    Returns:
-        bool: True if any widget has notifications queued.
-    """
-    return any(len(widget.notifications) > 0 for widget in STATUS_ELEMENTS.values())
-
-
-def clear_all_notifications() -> None:
-    """Clear all notification queues."""
-    for widget in STATUS_ELEMENTS.values():
-        widget.notifications.clear()
-
-
-def get_all_notifications() -> dict[str, list[Any]]:
-    """
-    Get all notifications from all widgets.
-
-    Returns:
-        dict[str, list[Any]]: A dictionary mapping widget names to their notification lists.
-    """
-    return {
-        name: widget.notifications.get_all() for name, widget in STATUS_ELEMENTS.items()
-    }
+init_session_state()
 
 
 def __getattr__(name: str) -> Any:

@@ -79,11 +79,8 @@ class NotificationQueue:
 
     def remove(self, item: Union[StatusElementNotification, int]) -> None:
         """Remove an item from the queue."""
+
         if isinstance(item, int):
-            if not (0 <= item < len(self.queue)):
-                raise IndexError(
-                    f"Index {item} out of range for queue of size {len(self.queue)}"
-                )
             self.queue.pop(item)
             return
 
@@ -105,26 +102,12 @@ class NotificationQueue:
         """Clear the queue."""
         self.queue.clear()
 
-    def pop(self, index: int = 0) -> Optional[StatusElementNotification]:
+    def pop(self, index: int = 0) -> StatusElementNotification:
         """Pop an item from the queue."""
-        if not self.queue:
-            return None
-
-        if not (0 <= index < len(self.queue)):
-            raise IndexError(
-                f"Index {index} out of range for queue of size {len(self.queue)}"
-            )
-
         return self.queue.pop(index)
 
-    def get(self, index: int = 0) -> Optional[StatusElementNotification]:
+    def get(self, index: int = 0) -> StatusElementNotification:
         """Get an item from the queue without removing it."""
-        if not self.queue:
-            return None
-
-        if not (0 <= index < len(self.queue)):
-            return None  # Could also raise IndexError for consistency
-
         return self.queue[index]
 
     def size(self) -> int:
@@ -153,27 +136,15 @@ class NotificationQueue:
 
     def __getitem__(self, index: int) -> StatusElementNotification:
         """Get an item by index."""
-        if not (0 <= index < len(self.queue)):
-            raise IndexError(
-                f"Index {index} out of range for queue of size {len(self.queue)}"
-            )
         return self.queue[index]
 
     def __setitem__(self, index: int, value: StatusElementNotification) -> None:
         """Set an item by index."""
-        if not (0 <= index < len(self.queue)):
-            raise IndexError(
-                f"Index {index} out of range for queue of size {len(self.queue)}"
-            )
         self.queue[index] = value
         self._sort()
 
     def __delitem__(self, index: int) -> None:
         """Delete an item by index."""
-        if not (0 <= index < len(self.queue)):
-            raise IndexError(
-                f"Index {index} out of range for queue of size {len(self.queue)}"
-            )
         del self.queue[index]
 
     def __hash__(self) -> int:
@@ -200,11 +171,11 @@ class NotificationQueue:
 
     def __iter__(self) -> Iterable[StatusElementNotification]:
         """Iterate over the notifications in the queue."""
-        yield from self.queue
+        yield from self.queue.copy()
 
     def __reversed__(self) -> Iterable[StatusElementNotification]:
         """Iterate over the notifications in reverse order."""
-        yield from reversed(self.queue)
+        yield from reversed(self.queue.copy())
 
     def __copy__(self):
         """Create a shallow copy of the queue."""

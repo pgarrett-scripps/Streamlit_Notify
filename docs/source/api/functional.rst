@@ -1,7 +1,7 @@
-extras
+functional
 ======
 
-.. automodule:: streamlit_notify.extras
+.. automodule:: streamlit_notify.functional
    :members:
    :undoc-members:
    :show-inheritance:

@@ -9,6 +9,9 @@ for error_notification in stn.error.notifications.get_all():
     # Only show notifications with valid data (data=True)
     if data == True:
         error_notification.notify()
+        stn.error.notifications.remove(error_notification)  # Remove the notification from the queue
+
+st.write(f"Total Error Notifications: {len(stn.error.notifications)}")
 
 # Will be shown
 if st.button("Show Error Message1"):

@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 from collections import OrderedDict
 
 # Import the classes we want to test
-from src.streamlit_notify.queue import NotificationQueue
+from streamlit_notify.notification_queue import NotificationQueue
 from src.streamlit_notify.dclass import StatusElementNotification
 
 
@@ -149,8 +149,9 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
 
     def test_pop_from_empty_queue(self):
         """Test popping from an empty queue."""
-        popped = self.queue.pop()
-        self.assertIsNone(popped)
+        with self.assertRaises(IndexError):
+            _ = self.queue.pop()
+
 
     def test_get_notification(self):
         """Test getting a notification without removing it."""
@@ -164,9 +165,9 @@ class TestStreamlitNotificationQueue(unittest.TestCase):
         self.assertEqual(len(self.queue), 2)  # Should not remove it
 
     def test_get_from_empty_queue(self):
-        """Test getting from an empty queue."""
-        notification = self.queue.get()
-        self.assertIsNone(notification)
+        """Test getting from an empty queue raises IndexError and returns None if handled."""
+        with self.assertRaises(IndexError):
+            self.queue.get()
 
     def test_queue_length(self):
         """Test the queue length functionality."""
@@ -355,10 +356,8 @@ class TestNotificationQueue(unittest.TestCase):
 
     def test_get_from_empty_queue_wrapper(self):
         """Test getting from empty queue."""
-        retrieved = self.notification_queue.get()
-
-        self.assertIsNone(retrieved)
-
+        with self.assertRaises(IndexError):
+            _ = self.notification_queue.get()
 
 if __name__ == "__main__":
     # Run the tests

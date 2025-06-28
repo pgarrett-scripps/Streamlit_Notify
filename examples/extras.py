@@ -1,20 +1,22 @@
-from streamlit_notify.extras import toast_stn, create_notification, notify, get_notifications, get_notification_queue
 import streamlit as st
+import streamlit_notify as stn
+from streamlit_notify.functional import (toast_stn,
+                                        balloons_stn)
 
-notification = create_notification(
+notification = stn.create_notification(
     "This is a test notification",
     priority=1,
     data={"key": "value"},
     notification_type="toast"
 )
 
-toast_notification_queue = get_notification_queue("toast")
+toast_notification_queue = stn.get_notification_queue("toast")
 
 st.write(toast_notification_queue.get_all())
 
 toast_notification_queue.append(notification)
 
-toast_notifications = get_notifications("toast")
+toast_notifications = stn.get_notifications("toast")
 
 st.write(toast_notifications)
 
@@ -25,4 +27,4 @@ if st.button("Show Notifications"):
 
 
 if st.button('notify'):
-    notify()
+    stn.notify()

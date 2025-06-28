@@ -9,7 +9,7 @@ import streamlit_notify as stn
 st.title("Streamlit Notify Test App")
 
 # Display all queued notifications
-stn.notify_all(remove=True)
+stn.notify(remove=True)
 
 # Create buttons to trigger different notification types
 if st.button("Trigger Success", key="success_btn"):
