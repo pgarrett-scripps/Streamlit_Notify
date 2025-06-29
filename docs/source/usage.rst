@@ -1,7 +1,7 @@
 Usage
 =====
 
-Rather than show notifications immediately, you can queue them up and display them at the beginning of your app. 
+Rather than showing notifications immediately, you can queue them up and display them at the beginning of your app. 
 This is useful if you want to rerun your app and notify users of a change after the rerun.
 
 Supported Status Elements
@@ -11,7 +11,7 @@ Supported Status Elements
 
     import streamlit_notify as stn
 
-    # Use stn status widgets exactly like you would use a streamlit status widget
+    # Use stn status widgets exactly as you would use a Streamlit status widget
     stn.toast("This is a toast message", icon="✅") 
     stn.balloons()
     stn.snow()
@@ -33,7 +33,7 @@ specifying `remove=False` to any notify function.
     import streamlit as st
     import streamlit_notify as stn
 
-    # Display all queued notifications at the beginning of your app (This will also clear the list)
+    # Display all queued notifications at the beginning of your app (this will also clear the list)
     stn.notify()
 
     # To display notifications without clearing them, set remove=False
@@ -109,7 +109,7 @@ Clear notifications when you no longer need them:
 
 .. code-block:: python
 
-    # Can directly clear notifications from a specific status element
+    # You can directly clear notifications from a specific status element
     stn.error.notifications.clear()
 
     # Clear all notifications
@@ -131,15 +131,15 @@ You can remove notifications from the queue without displaying them:
     stn.error.notifications.remove(notification)
     stn.error.notifications.remove(1) # Remove by index
 
-
     # Remove all notifications of a specific type
     stn.error.notifications.remove_all()
 
     # Or remove all notifications from the queue
     stn.error.notifications.clear()
 
-Checking if notifications exist in the queue
--------------------------------
+
+Checking if Notifications Exist in the Queue
+--------------------------------------------
 
 .. code-block:: python
 
@@ -155,16 +155,17 @@ Checking if notifications exist in the queue
     # Check if the error queue is empty
     stn.error.notifications.is_empty()
 
-    # Or if queue has any notifications
+    # Or if the queue has any notifications
     stn.error.notifications.has_items()
+    
 
 Looping Over Notifications
---------------
+--------------------------
 
 .. code-block:: python
 
     for notification in stn.error.notifications:
-        # optionally remove the notification from the queue
+        # Optionally remove the notification from the queue
         # stn.error.notifications is a copy of the queue so we can modify it safely
         stn.error.notifications.remove(notification)
 
@@ -213,11 +214,8 @@ What are Status Elements?
 Status elements are special notifications that are displayed in the Streamlit app, such as toasts, 
 balloons, and success messages. 
 
-They are stored as a dataclass `StatusElementNotification`, please refer to the :doc:`dclass documentation <api/dclass>` 
+They are stored as a dataclass `StatusElementNotification`. Please refer to the :doc:`dclass documentation <api/dclass>` 
 for more details.
 
 For more examples, please refer to the :doc:`API documentation <api/index>`.
-They are stored as a dataclass `StatusElementNotification`, please refer to the :doc:`dclass documentation <api/dclass>` 
-for more details.
 
-For more examples, please refer to the :doc:`API documentation <api/index>`.

@@ -152,10 +152,27 @@ def has_notifications(
     return False
 
 
-def remove_notification(
-    notification: StatusElementNotification,
+def remove_notifications(
+    notifications: Union[StatusElementNotification, Iterable[StatusElementNotification]],
 ) -> None:
     """
     Remove a specific notification from the queue.
     """
-    get_status_element(notification.name).notifications.remove(notification)
+    if isinstance(notifications, Iterable):
+        for n in notifications:
+            get_status_element(n.name).notifications.remove(n)
+        return
+    get_status_element(notifications.name).notifications.remove(notifications)
+
+
+def add_notifications(
+    notifications: Union[StatusElementNotification, Iterable[StatusElementNotification]],
+) -> None:
+    """
+    Add a notification to the queue.
+    """
+    if isinstance(notifications, Iterable):
+        for n in notifications:
+            get_status_element(n.name).notifications.append(n)
+        return
+    get_status_element(notifications.name).notifications.append(notifications)

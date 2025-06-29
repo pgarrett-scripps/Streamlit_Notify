@@ -1,7 +1,6 @@
 """
 Initialization module for the st_notify package.
 """
-
 __version__ = "0.3.0"
 
 from typing import Any
@@ -15,6 +14,18 @@ from .functional import (
     clear_notifications,  # type: ignore
     get_notification_queue,  # type: ignore
     has_notifications,  # type: ignore
+    remove_notifications,  # type: ignore
+    add_notifications,  # type: ignore
+)
+from .functional import (
+    toast_stn,  # type: ignore
+    balloons_stn,  # type: ignore
+    snow_stn,  # type: ignore
+    success_stn,  # type: ignore
+    info_stn,  # type: ignore
+    error_stn,  # type: ignore
+    warning_stn,  # type: ignore
+    exception_stn,  # type: ignore
 )
 from .notification_queue import NotificationQueue  # type: ignore
 from .notification_dataclass import StatusElementNotification  # type: ignore
