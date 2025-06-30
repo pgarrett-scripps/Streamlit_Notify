@@ -1,6 +1,8 @@
 ### 0.3.0
 - added priority and priority_type to get_notifications
 - switched argument order in notify
+- License
+- pyproject urls
 
 ### 0.3.0
 - more tests
