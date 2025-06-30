@@ -49,7 +49,7 @@ import streamlit as st
 import streamlit_notify as stn
 
 # Display all queued notifications at the beginning of your app. This will also clear the list.
-stn.notify_all()
+stn.notify()
 
 # Add a notification that will be displayed on the next rerun
 if st.button("Show Toast"):
@@ -85,7 +85,7 @@ stn.info("Low priority message", data={'Hello': 'World'})
 
 ```python
 # returns a dict mapping notification types to list of notifications
-notifications = stn.get_all_notifications()
+notifications = stn.get_notifications()
 error_notifications = notifications['error']
 toast_notifications = notifications['toast']
 
@@ -97,7 +97,7 @@ error_notifications = stn.error.get_notifications()
 
 ```python
 # clears all notifications
-stn.clear_all_notifications()
+stn.clear_notifications()
 
 # clears notifications of only a specific type
 stn.error.clear_notifications()
@@ -107,7 +107,7 @@ stn.error.clear_notifications()
 
 ```python
 # check if any notifications exist across all types
-stn.has_any_notifications()
+stn.has_notifications()
 
 # check only specific type
 stn.error.has_notifications()
