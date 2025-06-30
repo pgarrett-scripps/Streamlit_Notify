@@ -2,7 +2,7 @@
 Initialization module for the st_notify package.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 from typing import Any
 import streamlit as st

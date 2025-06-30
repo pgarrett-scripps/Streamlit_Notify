@@ -1,4 +1,8 @@
 ### 0.3.0
+- added priority and priority_type to get_notifications
+- switched argument order in notify
+
+### 0.3.0
 - more tests
 - final refactor
 - priority based filtering

@@ -83,12 +83,12 @@ def _resolve_types(
 
 
 def notify(
-    remove: bool = True,
-    priority: Optional[int] = None,
-    priority_type: Literal["le", "ge", "eq"] = "ge",
     notification_type: Optional[
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ] = None,
+    remove: bool = True,
+    priority: Optional[int] = None,
+    priority_type: Literal["le", "ge", "eq"] = "ge",
 ) -> None:
     """
     Display queued notifications.
@@ -104,6 +104,8 @@ def get_notifications(
     notification_type: Optional[
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ] = None,
+    priority: Optional[int] = None,
+    priority_type: Literal["le", "ge", "eq"] = "ge",
 ) -> List[StatusElementNotification]:
     """
     Retrieve all notifications for a specific type.
@@ -112,7 +114,9 @@ def get_notifications(
     types = _resolve_types(notification_type)
     notifications: List[StatusElementNotification] = []
     for nt in types:
-        notifications.extend(get_status_element(nt).notifications.get_all())
+        notifications.extend(get_status_element(nt).notifications.get_all(
+            priority=priority, priority_type=priority_type
+        ))
 
     return notifications
 
