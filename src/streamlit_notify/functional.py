@@ -84,6 +84,8 @@ def _resolve_types(
 
 def notify(
     remove: bool = True,
+    priority: Optional[int] = None,
+    priority_type: Literal["le", "ge", "eq"] = "ge",
     notification_type: Optional[
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ] = None,
@@ -93,7 +95,9 @@ def notify(
     """
     types = _resolve_types(notification_type)
     for nt in types:
-        get_status_element(nt).notify(remove=remove)
+        get_status_element(nt).notify(
+            remove=remove, priority=priority, priority_type=priority_type
+        )
 
 
 def get_notifications(
@@ -153,7 +157,9 @@ def has_notifications(
 
 
 def remove_notifications(
-    notifications: Union[StatusElementNotification, Iterable[StatusElementNotification]],
+    notifications: Union[
+        StatusElementNotification, Iterable[StatusElementNotification]
+    ],
 ) -> None:
     """
     Remove a specific notification from the queue.
@@ -166,7 +172,9 @@ def remove_notifications(
 
 
 def add_notifications(
-    notifications: Union[StatusElementNotification, Iterable[StatusElementNotification]],
+    notifications: Union[
+        StatusElementNotification, Iterable[StatusElementNotification]
+    ],
 ) -> None:
     """
     Add a notification to the queue.

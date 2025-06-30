@@ -1,6 +1,7 @@
 """
 Initialization module for the st_notify package.
 """
+
 __version__ = "0.3.0"
 
 from typing import Any

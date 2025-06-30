@@ -10,7 +10,6 @@ authors = [
     {name = "Patrick Garrett", email = "pgarrett@scripps.edu"},
 ]
 dynamic = ["version"]
-license = {text = "MIT"}
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

@@ -1,5 +1,10 @@
+### 0.3.0
+- more tests
+- final refactor
+- priority based filtering
+
 ### 0.2.1
-- added create notification fucntion to extras
+- added create notification function to extras
 - element -> notification_type
 
 ### v0.2.0

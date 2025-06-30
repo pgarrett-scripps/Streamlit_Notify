@@ -3,7 +3,7 @@ Widgets with notification queueing for Streamlit.
 """
 
 import inspect
-from typing import Any, Callable
+from typing import Any, Callable, Literal, Optional
 
 from .notification_queue import NotificationQueue
 from .notification_dataclass import StatusElementNotification
@@ -67,18 +67,22 @@ class RerunnableStatusElement:
             data=data,
         )
 
-    def notify(self, remove: bool = True) -> None:
+    def notify(
+        self,
+        remove: bool = True,
+        priority: Optional[int] = None,
+        priority_type: Literal["le", "lt", "ge", "gt", "eq"] = "eq",
+    ) -> None:
         """
         Display all queued notifications. Will display in order of priority and remove
         from queue if specified.
         """
-        if remove:
-            while self.notifications.has_items():
-                notification = self.notifications.pop()
-                notification.notify()
-        else:
-            for notification in self.notifications.get_all():
-                notification.notify()
+        for notification in self.notifications.get_all(
+            priority=priority, priority_type=priority_type
+        ):
+            notification.notify()
+            if remove:
+                self.notifications.remove(notification)
 
     def __repr__(self) -> str:
         """String representation of the wrapper."""

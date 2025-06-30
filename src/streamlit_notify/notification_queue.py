@@ -2,7 +2,7 @@
 Queue management for Streamlit notifications.
 """
 
-from typing import Dict, Generator, Iterable, List, Optional, Union, Callable
+from typing import Dict, Generator, Iterable, List, Literal, Optional, Union, Callable
 import copy
 
 import streamlit as st
@@ -94,9 +94,48 @@ class NotificationQueue:
         """Check if an item is in the queue."""
         return item in self.queue
 
-    def get_all(self) -> List[StatusElementNotification]:
+    def _get_all_less_than(self, priority: int) -> List[StatusElementNotification]:
+        """Get all items in the queue with priority less than the specified value."""
+        return [item for item in self.queue if item.priority < priority]
+
+    def _get_all_less_than_equal_to(
+        self, priority: int
+    ) -> List[StatusElementNotification]:
+        """Get all items in the queue with priority less than or equal to the specified value."""
+        return [item for item in self.queue if item.priority <= priority]
+
+    def _get_all_greater_than(self, priority: int) -> List[StatusElementNotification]:
+        """Get all items in the queue with priority greater than the specified value."""
+        return [item for item in self.queue if item.priority > priority]
+
+    def _get_all_greater_than_equal_to(
+        self, priority: int
+    ) -> List[StatusElementNotification]:
+        """Get all items in the queue with priority greater than or equal to the specified value."""
+        return [item for item in self.queue if item.priority >= priority]
+
+    def _get_all_equal_to(self, priority: int) -> List[StatusElementNotification]:
+        """Get all items in the queue with priority equal to the specified value."""
+        return [item for item in self.queue if item.priority == priority]
+
+    def get_all(
+        self,
+        priority: Optional[int] = None,
+        priority_type: Literal["le", "lt", "ge", "gt", "eq"] = "eq",
+    ) -> List[StatusElementNotification]:
         """Get all items in the queue."""
-        return self.queue.copy()  # Return a copy to prevent external modification
+        if priority is not None:
+            if priority_type == "le":
+                return self._get_all_less_than_equal_to(priority)
+            elif priority_type == "lt":
+                return self._get_all_less_than(priority)
+            elif priority_type == "ge":
+                return self._get_all_greater_than_equal_to(priority)
+            elif priority_type == "gt":
+                return self._get_all_greater_than(priority)
+            elif priority_type == "eq":
+                return self._get_all_equal_to(priority)
+        return self.queue.copy()
 
     def clear(self) -> None:
         """Clear the queue."""
