@@ -10,7 +10,7 @@ st.set_page_config(
 with st.container(border=True):
     st.caption("Notifications will be shown here")
     # Display all queued notifications at the beginning
-    stn.notify_all(True)
+    stn.notify()
 
 # Application title and description
 st.title("🔔 Streamlit-Notify Demo")
