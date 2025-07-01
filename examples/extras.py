@@ -1,7 +1,6 @@
 import streamlit as st
 import streamlit_notify as stn
-from streamlit_notify.functional import (toast_stn,
-                                        balloons_stn)
+from streamlit_notify.functional import toast_stn
 
 notification = stn.create_notification(
     "This is a test notification",

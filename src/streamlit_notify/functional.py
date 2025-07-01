@@ -114,9 +114,11 @@ def get_notifications(
     types = _resolve_types(notification_type)
     notifications: List[StatusElementNotification] = []
     for nt in types:
-        notifications.extend(get_status_element(nt).notifications.get_all(
-            priority=priority, priority_type=priority_type
-        ))
+        notifications.extend(
+            get_status_element(nt).notifications.get_all(
+                priority=priority, priority_type=priority_type
+            )
+        )
 
     return notifications
 
