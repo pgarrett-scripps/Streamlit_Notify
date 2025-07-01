@@ -1,6 +1,6 @@
 """Initialization module for the st_notify package."""
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 from typing import TYPE_CHECKING, Any
 
 import streamlit as st

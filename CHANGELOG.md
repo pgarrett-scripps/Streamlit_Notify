@@ -1,3 +1,12 @@
+### 0.3.2
+
+- pre-commit
+
+### 0.3.1
+
+- final streamlit-extra additions
+- fixed app
+
 ### 0.3.0
 
 - added priority and priority_type to get_notifications
