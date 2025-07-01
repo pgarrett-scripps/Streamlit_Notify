@@ -12,6 +12,15 @@ Demo App: https://st-notify.streamlit.app/
 pip install streamlit-notify
 ```
 
+## Development
+
+```bash
+pip install -r requirements-dev.txt
+pre-commit install # now pre-commit will run automatically on git commit
+```
+
+It is also possible to run pre-commit via: `pre-commit run --all-files`
+
 ## Documentation
 
 Full documentation is available at [Read the Docs](https://streamlit-notify.readthedocs.io/).
