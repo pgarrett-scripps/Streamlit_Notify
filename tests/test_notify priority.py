@@ -7,6 +7,27 @@ These tests verify that notifications work correctly in a simulated Streamlit ap
 from streamlit.testing.v1 import AppTest
 
 
+def app_script():
+    import streamlit as st
+
+    import streamlit_notify as stn
+
+    # Set up the page
+    st.title("Streamlit Notify Test App")
+
+    # Display all queued notifications
+    stn.notify(remove=True)
+
+    if st.button("Trigger Success", key="success_btn"):
+        stn.success("2", priority=2)
+        stn.success("1", priority=1)
+        stn.success("3", priority=3)
+
+    # rerun button
+    if st.button("Rerun", key="rerun_btn"):
+        pass
+
+
 class TestStreamlitNotifyIntegration:
     """Integration tests for streamlit_notify using AppTest."""
 
@@ -15,7 +36,7 @@ class TestStreamlitNotifyIntegration:
         import streamlit_notify as stn
 
         # Create an AppTest instance from our test app
-        at = AppTest.from_file("tests/test_app_priority.py", default_timeout=10)
+        at = AppTest.from_function(app_script, default_timeout=10)
 
         # Run the app initially
         at.run()

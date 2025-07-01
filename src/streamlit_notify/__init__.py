@@ -1,77 +1,108 @@
-"""
-Initialization module for the st_notify package.
-"""
+"""Initialization module for the st_notify package."""
 
 __version__ = "0.3.1"
+from typing import TYPE_CHECKING, Any
 
-from typing import Any
 import streamlit as st
 
-from .status_elements import RerunnableStatusElement  # type: ignore
 from .functional import (
-    create_notification,  # type: ignore
-    notify,  # type: ignore
-    get_notifications,  # type: ignore
-    clear_notifications,  # type: ignore
-    get_notification_queue,  # type: ignore
-    has_notifications,  # type: ignore
-    remove_notifications,  # type: ignore
-    add_notifications,  # type: ignore
+    add_notifications,
+    balloons_stn,
+    clear_notifications,
+    create_notification,
+    error_stn,
+    exception_stn,
+    get_notification_queue,
+    get_notifications,
+    has_notifications,
+    info_stn,
+    notify,
+    remove_notifications,
+    snow_stn,
+    success_stn,
+    toast_stn,
+    warning_stn,
 )
-from .functional import (
-    toast_stn,  # type: ignore
-    balloons_stn,  # type: ignore
-    snow_stn,  # type: ignore
-    success_stn,  # type: ignore
-    info_stn,  # type: ignore
-    error_stn,  # type: ignore
-    warning_stn,  # type: ignore
-    exception_stn,  # type: ignore
-)
-from .notification_queue import NotificationQueue  # type: ignore
-from .notification_dataclass import StatusElementNotification  # type: ignore
+from .notification_dataclass import StatusElementNotification
+from .notification_queue import NotificationPriorityQueue
 from .status_element_types import (
     STATUS_ELEMENTS,
-    NotificationType,  # type: ignore
-    toast,  # type: ignore
-    balloons,  # type: ignore
-    snow,  # type: ignore
-    success,  # type: ignore
-    info,  # type: ignore
-    error,  # type: ignore
-    warning,  # type: ignore
-    exception,  # type: ignore
+    NotificationType,
+    balloons,
+    error,
+    exception,
+    info,
+    snow,
+    success,
+    toast,
+    warning,
 )
+from .status_elements import RerunnableStatusElement
+from .utils import get_status_element
 
-from .utils import get_status_element  # type: ignore
+# Explicit __all__ to control what gets exported and reduce type errors
+__all__ = [
+    "__version__",
+    "RerunnableStatusElement",
+    "create_notification",
+    "notify",
+    "get_notifications",
+    "clear_notifications",
+    "get_notification_queue",
+    "has_notifications",
+    "remove_notifications",
+    "add_notifications",
+    "toast_stn",
+    "balloons_stn",
+    "snow_stn",
+    "success_stn",
+    "info_stn",
+    "error_stn",
+    "warning_stn",
+    "exception_stn",
+    "NotificationPriorityQueue",
+    "StatusElementNotification",
+    "STATUS_ELEMENTS",
+    "NotificationType",
+    "toast",
+    "balloons",
+    "snow",
+    "success",
+    "info",
+    "error",
+    "warning",
+    "exception",
+    "get_status_element",
+    "init_session_state",
+]
 
 
 def init_session_state() -> None:
-    """
-    Initialize session state for all notification elements.
-    This ensures that the notification queues are set up in the session state.
-    """
+    """Initialize session state for all notification elements."""
     for _, element in STATUS_ELEMENTS.items():
         element.setup_queue()
 
 
 init_session_state()
 
+if not TYPE_CHECKING:
 
-def __getattr__(name: str) -> Any:
-    """
-    Delegate attribute access to Streamlit if not found in this module.
+    def __getattr__(name: str) -> Any:
+        """Delegate attribute access to Streamlit if not found in this module.
 
-    Parameters:
-        name (str): Name of the attribute to get.
+        This function is not included in type checking to prevent it from
+        appearing in stub files.
 
-    Returns:
-        Any: The requested attribute from Streamlit.
+        Args:
+            name: Name of the attribute to get.
 
-    Raises:
-        AttributeError: If the attribute is not found in Streamlit.
-    """
-    try:
-        return getattr(st, name)
-    except AttributeError as err:
-        raise AttributeError(str(err).replace("streamlit", "st_notify")) from err
+        Returns:
+            The requested attribute from Streamlit.
+
+        Raises:
+            AttributeError: If the attribute is not found in Streamlit.
+        """
+        try:
+            return getattr(st, name)
+        except AttributeError as err:
+            raise AttributeError(str(err).replace("streamlit", "st_notify")) from err

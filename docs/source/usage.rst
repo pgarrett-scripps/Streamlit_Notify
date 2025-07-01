@@ -1,7 +1,7 @@
 Usage
 =====
 
-Rather than showing notifications immediately, you can queue them up and display them at the beginning of your app. 
+Rather than showing notifications immediately, you can queue them up and display them at the beginning of your app.
 This is useful if you want to rerun your app and notify users of a change after the rerun.
 
 Supported Status Elements
@@ -12,7 +12,7 @@ Supported Status Elements
     import streamlit_notify as stn
 
     # Use stn status widgets exactly as you would use a Streamlit status widget
-    stn.toast("This is a toast message", icon="✅") 
+    stn.toast("This is a toast message", icon="✅")
     stn.balloons()
     stn.snow()
     stn.success("Operation successful!")
@@ -25,7 +25,7 @@ Supported Status Elements
 Basic Usage
 -----------
 
-By default, displaying a notification will also clear it from its associated queue, but you can change this behavior by 
+By default, displaying a notification will also clear it from its associated queue, but you can change this behavior by
 specifying `remove=False` to any notify function.
 
 .. code-block:: python
@@ -58,7 +58,7 @@ specifying `remove=False` to any notify function.
 Notification Priority
 ---------------------
 
-You can set priorities for notifications, with higher priority notifications displayed first. 
+You can set priorities for notifications, with higher priority notifications displayed first.
 Otherwise, notifications are displayed in the order they were added:
 
 .. code-block:: python
@@ -68,8 +68,8 @@ Otherwise, notifications are displayed in the order they were added:
     stn.info("Low priority message", priority=-5)
 
     for notification in stn.info.notifications:
-        print(notification.priority) 
-        
+        print(notification.priority)
+
 
 Adding Custom Data to Notifications
 -----------------------------------
@@ -83,7 +83,7 @@ You can attach custom data to notifications:
     stn.info("Message with dictionary data", data={'Hello': 'World'})
 
     for notification in stn.info.notifications:
-        print(notification.data) 
+        print(notification.data)
 
 
 Accessing Notifications
@@ -147,7 +147,7 @@ Checking if Notifications Exist in the Queue
     has_any_notifications = stn.has_notifications()
     has_error_notifications = stn.has_notifications('error')
     has_error_or_toast_notifications = stn.has_notifications(['error', 'toast'])
-    
+
     # Check by length
     num_errors = len(stn.error.notifications)
     num_errors = stn.error.notifications.size()
@@ -157,7 +157,7 @@ Checking if Notifications Exist in the Queue
 
     # Or if the queue has any notifications
     stn.error.notifications.has_items()
-    
+
 
 Looping Over Notifications
 --------------------------
@@ -211,11 +211,10 @@ The status elements are stored in a session state queue, under the key: `ST_NOTI
 What are Status Elements?
 -------------------------
 
-Status elements are special notifications that are displayed in the Streamlit app, such as toasts, 
-balloons, and success messages. 
+Status elements are special notifications that are displayed in the Streamlit app, such as toasts,
+balloons, and success messages.
 
-They are stored as a dataclass `StatusElementNotification`. Please refer to the :doc:`dclass documentation <api/dclass>` 
+They are stored as a dataclass `StatusElementNotification`. Please refer to the :doc:`dclass documentation <api/dclass>`
 for more details.
 
 For more examples, please refer to the :doc:`API documentation <api/index>`.
-

@@ -34,5 +34,8 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+streamlit_notify = ["*.pyi", "py.typed"]
+
 [tool.setuptools.dynamic]
 version = {attr = "streamlit_notify.__version__"}

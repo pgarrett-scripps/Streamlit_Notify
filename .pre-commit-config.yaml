@@ -1,0 +1,76 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0 # Updated to newer version
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: debug-statements
+      - id: name-tests-test
+        args: [--pytest-test-first]
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        language_version: python3
+        types: [python]
+        exclude: ^stubs/
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        args: [--profile, black]
+        files: ^src/
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+        files: ^src/
+        args: [--max-line-length=100]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.16.1
+    hooks:
+      - id: mypy
+        args: [--install-types, --non-interactive, --ignore-missing-imports]
+        files: ^src/
+        exclude: ^stubs/
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        files: ^src/
+        args: [--convention=google]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        types_or: [markdown, yaml, json]
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        args: [--write-changes]
+  - repo: local
+    hooks:
+      - id: stubgen
+        name: Generate stubs with mypy
+        entry: stubgen
+        language: system
+        args: [-p, streamlit_notify, -o, stubs/]
+        pass_filenames: false
+      - id: build-docs
+        name: Build documentation
+        entry: bash
+        language: system
+        args: [-c, "cd docs && make clean && make html"]
+        pass_filenames: false
+        files: ^docs/
+      - id: pytest
+        name: Run pytest
+        entry: pytest
+        language: system
+        args: [-v, --tb=short]
+        pass_filenames: false
+        stages: [pre-push]

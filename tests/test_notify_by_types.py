@@ -1,9 +1,10 @@
-from streamlit.testing.v1 import AppTest
 import pytest
+from streamlit.testing.v1 import AppTest
 
 
 def app_script():
     import streamlit as st
+
     import streamlit_notify as stn
 
     stn.notify(notification_type="success", remove=True)
@@ -20,6 +21,7 @@ def app_script():
 def app_script_all_types():
     """App script to test all notification types"""
     import streamlit as st
+
     import streamlit_notify as stn
 
     stn.notify(remove=True)  # notify all types
@@ -41,6 +43,7 @@ def app_script_all_types():
 def app_script_multiple_types():
     """App script to test multiple specific notification types"""
     import streamlit as st
+
     import streamlit_notify as stn
 
     stn.notify(notification_type=["success", "error"], remove=True)
@@ -58,6 +61,7 @@ def app_script_multiple_types():
 def app_script_no_remove():
     """App script to test notify with remove=False"""
     import streamlit as st
+
     import streamlit_notify as stn
 
     stn.notify(notification_type="success", remove=False)
@@ -72,11 +76,12 @@ def app_script_no_remove():
 def app_script_invalid_type():
     """App script to test invalid notification type"""
     import streamlit as st
+
     import streamlit_notify as stn
 
     if st.button("Trigger Invalid", key="invalid_btn"):
         try:
-            stn.notify(notification_type="invalid_type")
+            stn.notify(notification_type="invalid_type")  # type: ignore
         except ValueError as e:
             st.write(f"Error: {e}")
 
@@ -250,8 +255,6 @@ class TestStreamlitNotificationByTypes:
 
     def test_notify_empty_queue(self):
         """Test notify when there are no notifications in queue."""
-        import streamlit_notify as stn
-
         at = AppTest.from_function(app_script, default_timeout=10)
 
         # Run the app initially
@@ -268,8 +271,6 @@ class TestStreamlitNotificationByTypes:
 
     def test_notify_with_iterable_types(self):
         """Test notify with notification_type as a list/tuple."""
-        import streamlit_notify as stn
-
         # Test with list
         at = AppTest.from_function(app_script_multiple_types, default_timeout=10)
         at.run()
@@ -288,14 +289,14 @@ class TestStreamlitNotificationByTypes:
 
     def test_notify_invalid_notification_type(self):
         """Test notify with invalid notification type raises ValueError."""
-        import streamlit_notify as stn
 
         def invalid_notify_app():
             import streamlit as st
+
             import streamlit_notify as stn
 
             if st.button("Test Invalid"):
-                stn.notify(notification_type="invalid_type")
+                stn.notify(notification_type="invalid_type")  # type: ignore
 
         at = AppTest.from_function(invalid_notify_app, default_timeout=10)
         at.run()
@@ -307,14 +308,14 @@ class TestStreamlitNotificationByTypes:
 
     def test_notify_mixed_valid_invalid_types(self):
         """Test notify with a mix of valid and invalid notification types."""
-        import streamlit_notify as stn
 
         def mixed_types_app():
             import streamlit as st
+
             import streamlit_notify as stn
 
             if st.button("Test Mixed"):
-                stn.notify(notification_type=["success", "invalid_type"])
+                stn.notify(notification_type=["success", "invalid_type"])  # type: ignore
 
         at = AppTest.from_function(mixed_types_app, default_timeout=10)
         at.run()

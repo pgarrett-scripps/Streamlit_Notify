@@ -1,6 +1,4 @@
-"""
-Streamlit notification objects.
-"""
+"""Streamlit notification objects."""
 
 from collections import OrderedDict
 from dataclasses import dataclass
@@ -9,9 +7,7 @@ from typing import Any, Callable
 
 @dataclass
 class StatusElementNotification:
-    """
-    Represents a notification for a Streamlit widget.
-    """
+    """Represents a notification for a Streamlit widget."""
 
     base_widget: Callable[..., Any]
     args: OrderedDict[str, Any]

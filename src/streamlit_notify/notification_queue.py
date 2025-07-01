@@ -1,9 +1,7 @@
-"""
-Queue management for Streamlit notifications.
-"""
+"""Queue management for Streamlit notifications."""
 
-from typing import Dict, Generator, Iterable, List, Literal, Optional, Union, Callable
 import copy
+from typing import Callable, Dict, Generator, Iterable, List, Literal, Optional, Union
 
 import streamlit as st
 
@@ -15,10 +13,8 @@ def default_sort_func(x: StatusElementNotification) -> int:
     return -x.priority
 
 
-class NotificationQueue:
-    """
-    A queue for managing Streamlit notifications.
-    """
+class NotificationPriorityQueue:
+    """A Priority queue for managing Streamlit notifications."""
 
     def __init__(
         self,
@@ -79,16 +75,14 @@ class NotificationQueue:
 
     def remove(self, item: Union[StatusElementNotification, int]) -> None:
         """Remove an item from the queue."""
-
         if isinstance(item, int):
             self.queue.pop(item)
             return
 
-        if item in self.queue:
-            self.queue.remove(item)
-            return
+        if item not in self.queue:
+            raise ValueError(f"Item: {item} wasn't found in queue.")
 
-        raise ValueError(f"Item: {item} not found in queue.")
+        self.queue.remove(item)
 
     def contains(self, item: StatusElementNotification) -> bool:
         """Check if an item is in the queue."""
@@ -192,7 +186,7 @@ class NotificationQueue:
 
     def __eq__(self, other: object) -> bool:
         """Check if this queue is equal to another."""
-        if not isinstance(other, NotificationQueue):
+        if not isinstance(other, NotificationPriorityQueue):
             return False
         return (
             self._queue_name == other._queue_name and self.get_all() == other.get_all()
@@ -204,7 +198,7 @@ class NotificationQueue:
 
     def __lt__(self, other: object) -> bool:
         """Check if this queue is less than another."""
-        if not isinstance(other, NotificationQueue):
+        if not isinstance(other, NotificationPriorityQueue):
             return NotImplemented
         return self.size() < other.size()
 
@@ -216,16 +210,16 @@ class NotificationQueue:
         """Iterate over the notifications in reverse order."""
         yield from reversed(self.queue.copy())
 
-    def __copy__(self):
+    def __copy__(self) -> "NotificationPriorityQueue":
         """Create a shallow copy of the queue."""
-        new_queue = NotificationQueue(f"{self._queue_name}_copy")
+        new_queue = NotificationPriorityQueue(f"{self._queue_name}_copy")
         new_queue._queue_name = self._queue_name  # Keep original name for copy
         new_queue.extend(self.get_all())
         return new_queue
 
-    def __deepcopy__(self, memo: Dict[int, object]):
+    def __deepcopy__(self, memo: Dict[int, object]) -> "NotificationPriorityQueue":
         """Create a deep copy of the queue."""
-        new_queue = NotificationQueue(f"{self._queue_name}_copy")
+        new_queue = NotificationPriorityQueue(f"{self._queue_name}_copy")
         new_queue._queue_name = self._queue_name  # Keep original name for copy
         new_queue.extend(copy.deepcopy(self.get_all(), memo))
         return new_queue

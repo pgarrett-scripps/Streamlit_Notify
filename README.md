@@ -6,7 +6,6 @@ Demo App: https://st-notify.streamlit.app/
 
 ![Demo](gif/demo.gif)
 
-
 ## Installation
 
 ```bash

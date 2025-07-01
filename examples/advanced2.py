@@ -1,4 +1,5 @@
 import streamlit as st
+
 import streamlit_notify as stn
 
 # Loop over notifications and display those with valid data
@@ -7,9 +8,11 @@ for error_notification in stn.error.notifications.get_all():
     data = error_notification.data
 
     # Only show notifications with valid data (data=True)
-    if data == True:
+    if data is True:
         error_notification.notify()
-        stn.error.notifications.remove(error_notification)  # Remove the notification from the queue
+        stn.error.notifications.remove(
+            error_notification
+        )  # Remove the notification from the queue
 
 st.write(f"Total Error Notifications: {len(stn.error.notifications)}")
 

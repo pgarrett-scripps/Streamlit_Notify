@@ -1,7 +1,10 @@
-# Define notification widgets
-import streamlit as st
-from .status_elements import RerunnableStatusElement
+"""Streamlit status element types."""
+
 from enum import Enum
+
+import streamlit as st
+
+from .status_elements import RerunnableStatusElement
 
 toast = RerunnableStatusElement(st.toast)
 balloons = RerunnableStatusElement(st.balloons)
@@ -14,9 +17,7 @@ exception = RerunnableStatusElement(st.exception)
 
 
 class NotificationType(Enum):
-    """
-    Enum class for notification types.
-    """
+    """Enum class for notification types."""
 
     TOAST = "toast"
     BALLOONS = "balloons"

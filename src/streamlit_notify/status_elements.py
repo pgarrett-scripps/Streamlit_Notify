@@ -1,18 +1,14 @@
-"""
-Widgets with notification queueing for Streamlit.
-"""
+"""Widgets with notification queueing for Streamlit."""
 
 import inspect
 from typing import Any, Callable, Literal, Optional
 
-from .notification_queue import NotificationQueue
 from .notification_dataclass import StatusElementNotification
+from .notification_queue import NotificationPriorityQueue
 
 
 class RerunnableStatusElement:
-    """
-    A wrapper for Streamlit widgets to enable notification queueing.
-    """
+    """A wrapper for Streamlit widgets to enable notification queueing."""
 
     def __init__(self, base_widget: Callable[..., Any]) -> None:
         """Initialize the wrapper."""
@@ -20,7 +16,7 @@ class RerunnableStatusElement:
         self._session_state_key = (
             f"ST_NOTIFY_{self._base_widget.__name__.upper()}_QUEUE"
         )
-        self._queue = NotificationQueue(self._session_state_key)
+        self._queue = NotificationPriorityQueue(self._session_state_key)
 
     @property
     def session_state_key(self) -> str:
@@ -38,7 +34,7 @@ class RerunnableStatusElement:
         return self._base_widget.__name__
 
     @property
-    def notifications(self) -> NotificationQueue:
+    def notifications(self) -> NotificationPriorityQueue:
         """Get the notification queue."""
         return self._queue
 
@@ -73,10 +69,7 @@ class RerunnableStatusElement:
         priority: Optional[int] = None,
         priority_type: Literal["le", "lt", "ge", "gt", "eq"] = "eq",
     ) -> None:
-        """
-        Display all queued notifications. Will display in order of priority and remove
-        from queue if specified.
-        """
+        """Display all queued notifications."""
         for notification in self.notifications.get_all(
             priority=priority, priority_type=priority_type
         ):

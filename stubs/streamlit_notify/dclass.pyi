@@ -1,0 +1,13 @@
+from collections import OrderedDict
+from dataclasses import dataclass
+from typing import Any, Callable
+
+@dataclass
+class StatusElementNotification:
+    base_widget: Callable[..., Any]
+    args: OrderedDict[str, Any]
+    priority: int = ...
+    data: Any = ...
+    def notify(self) -> None: ...
+    @property
+    def name(self) -> str: ...

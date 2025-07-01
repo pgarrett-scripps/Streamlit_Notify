@@ -1,10 +1,10 @@
 from streamlit.testing.v1 import AppTest
-import pytest
 
 
 def app_script_get_notifications():
     """App script to test get_notifications function"""
     import streamlit as st
+
     import streamlit_notify as stn
 
     stn.init_session_state()
@@ -188,6 +188,7 @@ class TestFunctionalAPI:
 
         def app_script_has_notifications():
             import streamlit as st
+
             import streamlit_notify as stn
             from streamlit_notify.functional import has_notifications
 
@@ -230,6 +231,7 @@ class TestFunctionalAPI:
 
         def app_script_get_queue():
             import streamlit as st
+
             import streamlit_notify as stn
             from streamlit_notify.functional import get_notification_queue
 
@@ -269,12 +271,13 @@ class TestFunctionalAPI:
 
         def app_script_individual_functions():
             import streamlit as st
+
             import streamlit_notify as stn
             from streamlit_notify.functional import (
-                success_stn,
                 error_stn,
-                warning_stn,
                 info_stn,
+                success_stn,
+                warning_stn,
             )
 
             stn.init_session_state()

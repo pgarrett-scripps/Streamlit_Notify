@@ -1,11 +1,9 @@
-"""
-Functional API for Streamlit Notify (For Streamlit Extras)
-"""
+"""Functional API for Streamlit Notify (For Streamlit Extras)."""
 
 from typing import Any, Iterable, List, Literal, Optional, Union
 
 from .notification_dataclass import StatusElementNotification
-from .notification_queue import NotificationQueue
+from .notification_queue import NotificationPriorityQueue
 from .status_element_types import STATUS_ELEMENTS, NotificationType
 from .utils import get_status_element
 
@@ -59,10 +57,7 @@ def create_notification(
     *args: Any,
     **kwargs: Any,
 ) -> StatusElementNotification:
-    """
-    Create a notification without adding it to the queue.
-    """
-
+    """Create a notification without adding it to the queue."""
     notification_type = kwargs.pop("notification_type", None)
     if notification_type is None:
         raise ValueError("notification_type must be provided as a keyword argument.")
@@ -75,6 +70,7 @@ def _resolve_types(
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ],
 ) -> List[NotificationStrTypes]:
+    """Resolve notification types."""
     if notification_type is None:
         return list(STATUS_ELEMENTS.keys())  # type: ignore
     if isinstance(notification_type, str):
@@ -90,9 +86,7 @@ def notify(
     priority: Optional[int] = None,
     priority_type: Literal["le", "ge", "eq"] = "ge",
 ) -> None:
-    """
-    Display queued notifications.
-    """
+    """Display queued notifications."""
     types = _resolve_types(notification_type)
     for nt in types:
         get_status_element(nt).notify(
@@ -107,10 +101,7 @@ def get_notifications(
     priority: Optional[int] = None,
     priority_type: Literal["le", "ge", "eq"] = "ge",
 ) -> List[StatusElementNotification]:
-    """
-    Retrieve all notifications for a specific type.
-    If no type is specified, retrieves all notifications.
-    """
+    """Retrieve all notifications for a specific type(s)."""
     types = _resolve_types(notification_type)
     notifications: List[StatusElementNotification] = []
     for nt in types:
@@ -128,10 +119,7 @@ def clear_notifications(
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ] = None,
 ) -> None:
-    """
-    Clear notifications for a specific type.
-    If no type is specified, clears all notifications.
-    """
+    """Clear notifications for a specific type(s)."""
     types = _resolve_types(notification_type)
     for nt in types:
         get_status_element(nt).notifications.clear()
@@ -139,10 +127,8 @@ def clear_notifications(
 
 def get_notification_queue(
     notification_type: NotificationStrTypes,
-) -> NotificationQueue:
-    """
-    Retrieve notifications for a specific type.
-    """
+) -> NotificationPriorityQueue:
+    """Retrieve notification priority queue."""
     return get_status_element(notification_type).notifications
 
 
@@ -151,10 +137,7 @@ def has_notifications(
         Union[NotificationStrTypes, Iterable[NotificationStrTypes]]
     ] = None,
 ) -> bool:
-    """
-    Check if there are any notifications of a specific type.
-    If no type is specified, checks for any notifications.
-    """
+    """Check if there are any notifications."""
     types = _resolve_types(notification_type)
     for nt in types:
         if not get_status_element(nt).notifications.is_empty():
@@ -167,9 +150,7 @@ def remove_notifications(
         StatusElementNotification, Iterable[StatusElementNotification]
     ],
 ) -> None:
-    """
-    Remove a specific notification from the queue.
-    """
+    """Remove notification(s) from the queue."""
     if isinstance(notifications, Iterable):
         for n in notifications:
             get_status_element(n.name).notifications.remove(n)
@@ -182,9 +163,7 @@ def add_notifications(
         StatusElementNotification, Iterable[StatusElementNotification]
     ],
 ) -> None:
-    """
-    Add a notification to the queue.
-    """
+    """Add notification(s) to the queue."""
     if isinstance(notifications, Iterable):
         for n in notifications:
             get_status_element(n.name).notifications.append(n)

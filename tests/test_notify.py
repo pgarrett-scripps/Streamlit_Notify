@@ -7,10 +7,51 @@ These tests verify that notifications work correctly in a simulated Streamlit ap
 from streamlit.testing.v1 import AppTest
 
 
+def app_script():
+    import streamlit as st
+
+    import streamlit_notify as stn
+
+    # Set up the page
+    st.title("Streamlit Notify Test App")
+
+    # Display all queued notifications
+    stn.notify(remove=True)
+
+    # Create buttons to trigger different notification types
+    if st.button("Trigger Success", key="success_btn"):
+        stn.success("Success notification triggered!")
+
+    if st.button("Trigger Error", key="error_btn"):
+        stn.error("Error notification triggered!")
+
+    if st.button("Trigger Warning", key="warning_btn"):
+        stn.warning("Warning notification triggered!")
+
+    if st.button("Trigger Info", key="info_btn"):
+        stn.info("Info notification triggered!")
+
+    if st.button("Trigger Toast", key="toast_btn"):
+        stn.toast("Toast notification triggered!")
+
+    if st.button("Trigger Exception", key="exception_btn"):
+        stn.exception("Exception notification triggered!")
+
+    if st.button("Trigger Snow", key="snow_btn"):
+        stn.snow()
+
+    if st.button("Trigger Balloons", key="balloons_btn"):
+        stn.balloons()
+
+    # rerun button
+    if st.button("Rerun", key="rerun_btn"):
+        pass
+
+
 def _helper(button_key: str, st_attribute: str, session_state_key: str):
 
     # Create an AppTest instance from our test app
-    at = AppTest.from_file("tests/test_app.py", default_timeout=10)
+    at = AppTest.from_function(app_script, default_timeout=10)
 
     # Run the app initially
     at.run()
